@@ -1,1 +1,26 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BMC Revision Notes</title><style>html,body,#app{width:100%;min-height:100%;margin:0}body{font-family:system-ui;background:#f4f7fb}.loading{padding:40px;text-align:center;color:#0b2a63}.loading a{display:inline-block;padding:10px 14px;border-radius:9px;background:#0b2a63;color:white;text-decoration:none;font-weight:800}</style></head><body><div id="app"><div class="loading"><strong>GETLOCKEDIN × DOMINANCE</strong><h1>Basic Medical Chemistry</h1><p>Loading Revision Notes…</p></div></div><script>function hardenNotes(html){const patch=`<script>(function(){const HOME='/SUPPLEMENTARY-EXAMS-SUPPORT/index.html';function isHome(el){if(!el)return false;const txt=(el.textContent||'').trim().toLowerCase();const aria=(el.getAttribute&&el.getAttribute('aria-label')||'').toLowerCase();const href=(el.getAttribute&&el.getAttribute('href')||'').trim();return txt==='home'||txt==='⌂ home'||txt==='⌂home'||aria.includes('home')||href==='/'||href==='/index.html';}function fix(){document.querySelectorAll('a,button').forEach(el=>{if(isHome(el)){if(el.tagName==='A')el.setAttribute('href',HOME);el.dataset.gliHome='1';}});}document.addEventListener('click',function(e){const el=e.target.closest('a,button');if(!el)return;if(el.dataset.gliHome==='1'||isHome(el)){e.preventDefault();location.href=HOME;return;}const txt=(el.textContent||'').trim().toLowerCase();if((txt==='top'||txt==='↑ top'||txt==='back to top')&&(!el.getAttribute('href')||el.getAttribute('href')==='#')){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});}},true);document.addEventListener('DOMContentLoaded',fix);new MutationObserver(fix).observe(document.documentElement,{childList:true,subtree:true});setTimeout(fix,50);setTimeout(fix,500);})();<\/script>`;html=html.replace(/href=(['"])\/(?:index\.html)?\1/gi,'href=$1/SUPPLEMENTARY-EXAMS-SUPPORT/index.html$1');return /<\/body>/i.test(html)?html.replace(/<\/body>/i,patch+'</body>'):html+patch}async function start(){if(!('DecompressionStream' in window))throw new Error('unsupported');const rs=await Promise.all(['assets/bmc-notes-1.txt','assets/bmc-notes-2.txt'].map(async u=>{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('asset');return r.text()}));const data=rs.join('').replace(/\s/g,'');const bytes=Uint8Array.from(atob(data),c=>c.charCodeAt(0));const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));let html=await new Response(stream).text();html=hardenNotes(html);document.open();document.write(html);document.close()}start().catch(()=>{document.getElementById('app').innerHTML='<div class="loading"><h1>Unable to load the revision notes</h1><p>Please refresh the page. If the problem continues, update your browser and try again.</p><p><a href="/SUPPLEMENTARY-EXAMS-SUPPORT/index.html">⌂ Home</a></p></div>'});</script></body></html>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BMC Revision Notes</title><style>html,body{margin:0;min-height:100%;font-family:system-ui;background:#f4f7fb}.loading{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#0b2a63;padding:24px;box-sizing:border-box}.loading h1{font-size:clamp(28px,5vw,48px);margin:18px 0}.home{display:inline-block;margin-top:16px;padding:10px 15px;border-radius:9px;background:#0b2a63;color:#fff;text-decoration:none;font-weight:800}</style></head><body><main class="loading" id="status"><div><strong>GETLOCKEDIN × DOMINANCE</strong><h1>Basic Medical Chemistry</h1><p>Loading Revision Notes…</p><noscript><p>JavaScript is required for the interactive notes.</p></noscript></div></main><script>
+(async()=>{
+ try{
+  if(typeof DecompressionStream==='undefined') throw new Error('This browser does not support the notes loader.');
+  const paths=['assets/bmc-notes-1.txt','assets/bmc-notes-2.txt'];
+  const parts=[];
+  for(const path of paths){
+   const r=await fetch(path+'?v=20260926-final',{cache:'no-store'});
+   if(!r.ok) throw new Error('Could not load notes data ('+r.status+').');
+   parts.push(await r.text());
+  }
+  const encoded=parts.join('').replace(/\s+/g,'');
+  const binary=atob(encoded);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  let html=await new Response(stream).text();
+  html=html.replace(/href=(['"])\/(?:index\.html)?\1/gi,'href=$1/SUPPLEMENTARY-EXAMS-SUPPORT/index.html$1');
+  html=html.replace(/href=(['"])\.\/index\.html\1/gi,'href=$1/SUPPLEMENTARY-EXAMS-SUPPORT/index.html$1');
+  document.open();document.write(html);document.close();
+ }catch(err){
+  console.error(err);
+  document.getElementById('status').innerHTML='<div><strong>GETLOCKEDIN × DOMINANCE</strong><h1>Basic Medical Chemistry</h1><p><b>The notes could not load.</b></p><p>'+String(err.message||err)+'</p><a class="home" href="/SUPPLEMENTARY-EXAMS-SUPPORT/index.html">⌂ Home</a></div>';
+ }
+})();
+</script></body></html>
