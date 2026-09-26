@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLI – COMM. SKILLS Q. BANK</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1a3a8f;
+  --blue-dark: #122870;
+  --blue-light: #2450b5;
+  --gold: #c9a227;
+  --gold-light: #f0c84a;
+  --white: #ffffff;
+  --bg: #f4f6fb;
+  --correct: #166534;
+  --correct-bg: #dcfce7;
+  --wrong: #991b1b;
+  --wrong-bg: #fee2e2;
+  --gray: #6b7280;
+  --border: #d1d5db;
+  --shadow: 0 4px 24px rgba(26,58,143,0.10);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); min-height: 100vh; color: #1e293b; }
+
+/* HEADER */
+.header { background: var(--blue); color: white; padding: 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(26,58,143,0.25); }
+.header-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 32px; border-bottom: 3px solid var(--gold); flex-wrap: wrap; gap: 10px; }
+.brand-left { display: flex; align-items: center; gap: 14px; }
+.gli-badge { background: var(--gold); color: var(--blue-dark); font-family: 'Bebas Neue', sans-serif; font-size: 2rem; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 10px; letter-spacing: 1px; flex-shrink: 0; }
+.brand-text h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: white; line-height: 1; }
+.brand-text p { font-size: 0.72rem; color: var(--gold-light); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+.header-right { text-align: right; }
+.course-tag { font-size: 0.7rem; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+.score-display { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: white; letter-spacing: 1px; }
+
+/* MODE BAR */
+.mode-bar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 10px 32px; background: var(--blue-dark); flex-wrap: wrap; }
+.mode-label { font-size: 0.75rem; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+.mode-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); }
+.mode-btn { padding: 7px 22px; font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 800; cursor: pointer; border: none; background: transparent; color: rgba(255,255,255,0.6); letter-spacing: 1px; transition: all 0.2s; }
+.mode-btn.active { background: var(--gold); color: var(--blue-dark); border-radius: 6px; }
+.progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.15); position: relative; }
+.progress-bar-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; }
+
+/* FILTER BAR */
+.filter-bar { background: #eef2ff; border-bottom: 2px solid var(--border); padding: 12px 32px; }
+.filter-label { font-size: 0.75rem; font-weight: 800; color: var(--blue); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 5px 14px; border-radius: 20px; border: 2px solid var(--border); background: white; font-size: 0.78rem; font-weight: 700; cursor: pointer; color: var(--gray); transition: all 0.18s; white-space: nowrap; }
+.chip:hover { border-color: var(--blue); color: var(--blue); }
+.chip.active { background: var(--blue); color: white; border-color: var(--blue); }
+.chip.gold-chip.active { background: var(--gold); color: var(--blue-dark); border-color: var(--gold); }
+
+/* MAIN */
+.main { max-width: 860px; margin: 0 auto; padding: 32px 16px 80px; }
+
+/* SECTION HEADER */
+.section-header { display: flex; align-items: center; gap: 12px; margin: 32px 0 16px; }
+.section-tag { background: var(--blue); color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 2px; padding: 4px 14px; border-radius: 4px; }
+.section-title { font-size: 0.8rem; font-weight: 700; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; }
+
+/* QUESTION CARD */
+.q-card { background: white; border-radius: 14px; box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; border: 1.5px solid var(--border); transition: border-color 0.2s; }
+.q-card.hidden { display: none; }
+.q-card.answered-correct { border-color: var(--correct); }
+.q-card.answered-wrong { border-color: var(--wrong); }
+.q-header { display: flex; align-items: flex-start; gap: 14px; padding: 18px 22px 14px; border-bottom: 1px solid #f1f5f9; }
+.q-num { background: var(--blue); color: white; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; min-width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; letter-spacing: 1px; }
+.q-badge { font-size: 0.65rem; font-weight: 800; background: #eef2ff; color: var(--blue); border: 1px solid #c7d2fe; border-radius: 4px; padding: 2px 7px; margin-left: 8px; white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; vertical-align: middle; }
+.q-text { font-size: 0.93rem; font-weight: 700; line-height: 1.6; color: #1e293b; flex: 1; }
+.q-text .passage-ref { font-size: 0.8rem; color: var(--blue); font-weight: 600; font-style: italic; display: block; margin-bottom: 4px; }
+.q-text em { font-style: italic; color: #334155; }
+.q-text strong { color: var(--blue-dark); }
+.underline { text-decoration: underline; font-weight: 800; color: var(--blue-dark); }
+
+/* PASSAGE BOX */
+.passage-box { background: #f0f4ff; border-left: 4px solid var(--blue); margin: 0 22px 0; padding: 14px 18px; font-size: 0.83rem; line-height: 1.7; color: #334155; border-radius: 0 8px 8px 0; }
+.passage-box p { margin-bottom: 8px; }
+.passage-box p:last-child { margin-bottom: 0; }
+.passage-quote { font-weight: 700; color: var(--blue); font-style: italic; display: block; margin: 10px 0 6px; }
+
+/* OPTIONS */
+.q-options { padding: 14px 22px 18px; }
+.option-label { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; border-radius: 8px; cursor: pointer; margin-bottom: 8px; border: 1.5px solid var(--border); transition: all 0.18s; font-size: 0.88rem; font-weight: 600; line-height: 1.5; }
+.option-label:hover:not(.disabled) { border-color: var(--blue); background: #f0f4ff; }
+.option-label input[type=radio] { display: none; }
+.option-dot { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.18s; }
+.option-label.selected .option-dot { background: var(--blue); border-color: var(--blue); }
+.option-label.selected .option-dot::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
+.option-label.correct-ans { background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+.option-label.correct-ans .option-dot { background: var(--correct); border-color: var(--correct); }
+.option-label.correct-ans .option-dot::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
+.option-label.wrong-ans { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
+.option-label.wrong-ans .option-dot { background: var(--wrong); border-color: var(--wrong); }
+.option-label.disabled { cursor: not-allowed; pointer-events: none; }
+.option-letter { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; color: var(--blue); min-width: 18px; }
+.option-label.correct-ans .option-letter, .option-label.wrong-ans .option-letter { color: inherit; }
+
+/* FEEDBACK */
+.feedback-msg { margin: 0 22px 14px; padding: 10px 14px; border-radius: 8px; font-size: 0.83rem; font-weight: 700; display: none; }
+.feedback-msg.correct { background: var(--correct-bg); color: var(--correct); display: block; }
+.feedback-msg.wrong { background: var(--wrong-bg); color: var(--wrong); display: block; }
+
+/* SUBMIT BTN */
+.submit-wrap { display: flex; justify-content: center; margin: 32px 0 12px; }
+.btn-submit { background: var(--blue); color: white; border: none; padding: 15px 52px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.05rem; border-radius: 12px; cursor: pointer; letter-spacing: 1px; box-shadow: 0 4px 18px rgba(26,58,143,0.25); transition: all 0.2s; border-bottom: 4px solid var(--blue-dark); }
+.btn-submit:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+/* RESULTS PANEL */
+.results-panel { background: white; border-radius: 16px; padding: 36px 32px; text-align: center; box-shadow: var(--shadow); border: 2px solid var(--gold); display: none; margin-top: 24px; }
+.results-panel.show { display: block; }
+.results-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--blue); letter-spacing: 3px; margin-bottom: 8px; }
+.results-score { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--gold); line-height: 1; }
+.results-sub { font-size: 0.9rem; color: var(--gray); margin-top: 6px; font-weight: 600; }
+.results-bar-bg { background: #f1f5f9; border-radius: 100px; height: 18px; margin: 20px 0; overflow: hidden; }
+.results-bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--gold)); border-radius: 100px; transition: width 1s ease; }
+.btn-retry { background: var(--gold); color: var(--blue-dark); border: none; padding: 12px 36px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 0.95rem; border-radius: 10px; cursor: pointer; margin-top: 18px; letter-spacing: 1px; transition: all 0.2s; }
+.btn-retry:hover { background: var(--gold-light); }
+
+/* FOOTER */
+.footer { text-align: center; padding: 18px; font-size: 0.72rem; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; border-top: 1px solid var(--border); margin-top: 40px; }
+.footer span { color: var(--blue); font-weight: 800; }
+
+/* NO RESULTS */
+.no-results { text-align: center; padding: 60px 20px; color: var(--gray); }
+.no-results h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--blue); }
+
+
+/* Supplementary Support navigation */
+.supp-nav{background:#fff;border-bottom:1px solid #dbe3f0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 10px rgba(18,40,112,.06)}
+.supp-nav-inner{max-width:1100px;margin:auto;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.home-link,.top-link{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:.88rem;border-radius:9px;padding:8px 11px}
+.home-link{background:var(--blue);color:#fff}.top-link{border:1px solid #dbe3f0;color:var(--blue);background:#fff}
+.supp-note{font-size:.78rem;color:#64748b;font-weight:700;text-align:center}
+@media(max-width:600px){.supp-note{display:none}.supp-nav-inner{padding:8px 10px}.home-link,.top-link{font-size:.8rem;padding:7px 9px}}
+
+@media (max-width: 600px) {
+  .header-top { padding: 10px 14px; }
+  .filter-bar { padding: 10px 14px; }
+  .main { padding: 16px 8px 60px; }
+  .q-header { padding: 14px 14px 10px; }
+  .q-options { padding: 10px 14px 14px; }
+  .passage-box { margin: 0 14px 0; }
+  .feedback-msg { margin: 0 14px 12px; }
+}
+</style>
+</head>
+<body>
+<div class="supp-nav">
+  <div class="supp-nav-inner">
+    <a class="home-link" href="../">⌂ Homepage</a>
+    <div class="supp-note">Supplementary Exams Support · Communication Skills</div>
+    <a class="top-link" href="#quizMain">Practice ↓</a>
+  </div>
+</div>
+
+
+<div class="header">
+  <div class="header-top">
+    <div class="brand-left">
+      <div class="gli-badge">GLI</div>
+      <div class="brand-text">
+        <h1>GETLOCKEDIN</h1>
+        <p>Powered by Grace-Led Systems &nbsp;|&nbsp; SUPPLEMENTARY SUPPORT</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="course-tag">Communication Skills &nbsp;·&nbsp; Question Bank</div>
+      <div class="score-display" id="liveScore">Score: 0 / 0</div>
+    </div>
+  </div>
+  <div class="mode-bar">
+    <span class="mode-label">Mode:</span>
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btnInstant" onclick="setMode('instant')">⚡ Instant</button>
+      <button class="mode-btn" id="btnSubmit" onclick="setMode('submit')">📋 Submit</button>
+    </div>
+    <span style="font-size:0.78rem; color:rgba(255,255,255,0.5);">|</span>
+    <span class="mode-label" id="qCount" style="color:var(--gold-light);">130 Questions</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-label">🎯 Practice by Topic</div>
+  <div class="filter-chips">
+    <span class="chip gold-chip active" onclick="filterTopic('all', this)">All Topics</span>
+    <span class="chip" onclick="filterTopic('sentence-types', this)">Sentence Types</span>
+    <span class="chip" onclick="filterTopic('sentence-structure', this)">Sentence Structure</span>
+    <span class="chip" onclick="filterTopic('parallelism', this)">Parallelism</span>
+    <span class="chip" onclick="filterTopic('conjunctions', this)">Conjunctions</span>
+    <span class="chip" onclick="filterTopic('parts-of-speech', this)">Parts of Speech</span>
+    <span class="chip" onclick="filterTopic('nouns', this)">Singular/Plural</span>
+    <span class="chip" onclick="filterTopic('concord', this)">Concord</span>
+    <span class="chip" onclick="filterTopic('paragraphing', this)">Paragraphing</span>
+    <span class="chip" onclick="filterTopic('ambiguity', this)">Ambiguity</span>
+    <span class="chip" onclick="filterTopic('punctuation', this)">Punctuation</span>
+    <span class="chip" onclick="filterTopic('summary', this)">Summary</span>
+    <span class="chip" onclick="filterTopic('prepositions', this)">Prepositions</span>
+    <span class="chip" onclick="filterTopic('spelling', this)">Spelling</span>
+    <span class="chip" onclick="filterTopic('passage', this)">Passage</span>
+    <span class="chip" onclick="filterTopic('essay-types', this)">Essay Types</span>
+  </div>
+</div>
+
+<div class="main" id="quizMain">
+
+<!-- ============================
+     ORIGINAL QUESTIONS Q1–Q70
+     ============================ -->
+
+<div class="section-header"><span class="section-tag">SECTION A</span><span class="section-title">Sentence Construction &amp; Grammar</span></div>
+
+<div class="q-card" id="qc1" data-topic="sentence-structure concord">
+  <div class="q-header"><div class="q-num">1</div><div class="q-text">From the alternatives A–D, select the one that is correctly constructed.<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,1,'a')"><input type="radio" name="q1"><div class="option-dot"></div><span class="option-letter">A</span> Supporters of Augustina appreciate her singing, performance, and she has good looks.</label>
+    <label class="option-label" onclick="pick(this,1,'b')"><input type="radio" name="q1"><div class="option-dot"></div><span class="option-letter">B</span> Supporters of Augustina appreciate her ability to sing, her passion for performance, and she has good looks.</label>
+    <label class="option-label" onclick="pick(this,1,'c')"><input type="radio" name="q1"><div class="option-dot"></div><span class="option-letter">C</span> Supporters of Augustina appreciate her songs, her passion for performance, and her good looks.</label>
+    <label class="option-label" onclick="pick(this,1,'d')"><input type="radio" name="q1"><div class="option-dot"></div><span class="option-letter">D</span> Supporters of Augustina appreciate her ability to sing, her passion for performance, and her good looks.</label>
+  </div><div class="feedback-msg" id="fb1"></div>
+</div>
+
+<div class="q-card" id="qc2" data-topic="concord">
+  <div class="q-header"><div class="q-num">2</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,2,'a')"><input type="radio" name="q2"><div class="option-dot"></div><span class="option-letter">A</span> Neither the scientists nor his colleagues is able to solve the puzzle I have.</label>
+    <label class="option-label" onclick="pick(this,2,'b')"><input type="radio" name="q2"><div class="option-dot"></div><span class="option-letter">B</span> Neither the scientist nor his colleagues is able to solve the puzzle I have.</label>
+    <label class="option-label" onclick="pick(this,2,'c')"><input type="radio" name="q2"><div class="option-dot"></div><span class="option-letter">C</span> Neither the scientist nor his colleague are able to solve the puzzle I have.</label>
+    <label class="option-label" onclick="pick(this,2,'d')"><input type="radio" name="q2"><div class="option-dot"></div><span class="option-letter">D</span> Neither the scientist nor his colleagues are able to solve the puzzle I have.</label>
+  </div><div class="feedback-msg" id="fb2"></div>
+</div>
+
+<div class="q-card" id="qc3" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">3</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,3,'a')"><input type="radio" name="q3"><div class="option-dot"></div><span class="option-letter">A</span> The officials include with archaeologists, interpreters, business analysts and anthropologists.</label>
+    <label class="option-label" onclick="pick(this,3,'b')"><input type="radio" name="q3"><div class="option-dot"></div><span class="option-letter">B</span> The officials include off archaeologists, interpreters, business analysts and anthropologists.</label>
+    <label class="option-label" onclick="pick(this,3,'c')"><input type="radio" name="q3"><div class="option-dot"></div><span class="option-letter">C</span> The officials include of archaeologists, interpreters, business analysts and anthropologists.</label>
+    <label class="option-label" onclick="pick(this,3,'d')"><input type="radio" name="q3"><div class="option-dot"></div><span class="option-letter">D</span> The officials include archaeologists, interpreters, business analysts and anthropologists.</label>
+  </div><div class="feedback-msg" id="fb3"></div>
+</div>
+
+<div class="q-card" id="qc4" data-topic="concord">
+  <div class="q-header"><div class="q-num">4</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,4,'a')"><input type="radio" name="q4"><div class="option-dot"></div><span class="option-letter">A</span> Neither the boy nor his step brothers grasp Spanish.</label>
+    <label class="option-label" onclick="pick(this,4,'b')"><input type="radio" name="q4"><div class="option-dot"></div><span class="option-letter">B</span> Neither the boy nor his steps-sisters grasps Spanish.</label>
+    <label class="option-label" onclick="pick(this,4,'c')"><input type="radio" name="q4"><div class="option-dot"></div><span class="option-letter">C</span> Neither the boys nor his group members grasp Spanish.</label>
+    <label class="option-label" onclick="pick(this,4,'d')"><input type="radio" name="q4"><div class="option-dot"></div><span class="option-letter">D</span> Neither the boy nor his step-brother grasp Spanish.</label>
+  </div><div class="feedback-msg" id="fb4"></div>
+</div>
+
+<div class="q-card" id="qc5" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">5</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,5,'a')"><input type="radio" name="q5"><div class="option-dot"></div><span class="option-letter">A</span> It behoves on economics students to acquaint themselves with university rules and regulations.</label>
+    <label class="option-label" onclick="pick(this,5,'b')"><input type="radio" name="q5"><div class="option-dot"></div><span class="option-letter">B</span> It behoves for economics students to acquaint themselves with university rules and regulations.</label>
+    <label class="option-label" onclick="pick(this,5,'c')"><input type="radio" name="q5"><div class="option-dot"></div><span class="option-letter">C</span> It behoves in economics students to acquaint themselves with university rules and regulations.</label>
+    <label class="option-label" onclick="pick(this,5,'d')"><input type="radio" name="q5"><div class="option-dot"></div><span class="option-letter">D</span> It behoves economics students to acquaint themselves with university rules and regulations.</label>
+  </div><div class="feedback-msg" id="fb5"></div>
+</div>
+
+<div class="q-card" id="qc6" data-topic="spelling">
+  <div class="q-header"><div class="q-num">6</div><div class="q-text">From alternatives A–D, select the one with all words correctly spelt.<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,6,'a')"><input type="radio" name="q6"><div class="option-dot"></div><span class="option-letter">A</span> Misspellings on a CV, David said, shall at some point, lead to embarrassment and even harassment.</label>
+    <label class="option-label" onclick="pick(this,6,'b')"><input type="radio" name="q6"><div class="option-dot"></div><span class="option-letter">B</span> Mispellings on a CV, David said, shall at some point, lead to embarrassment and even harassment.</label>
+    <label class="option-label" onclick="pick(this,6,'c')"><input type="radio" name="q6"><div class="option-dot"></div><span class="option-letter">C</span> Mispellings on a CV, David said, shall at some point, lead to embarasment and even harassment.</label>
+    <label class="option-label" onclick="pick(this,6,'d')"><input type="radio" name="q6"><div class="option-dot"></div><span class="option-letter">D</span> Misspellings on a CV, David said, shall, at some point, lead to embarassment and even harrassment.</label>
+  </div><div class="feedback-msg" id="fb6"></div>
+</div>
+
+<div class="q-card" id="qc7" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">7</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,7,'a')"><input type="radio" name="q7"><div class="option-dot"></div><span class="option-letter">A</span> Her confidant delivered of a bouncing baby boy last year.</label>
+    <label class="option-label" onclick="pick(this,7,'b')"><input type="radio" name="q7"><div class="option-dot"></div><span class="option-letter">B</span> Her confidant delivered on a bouncing baby boy last year.</label>
+    <label class="option-label" onclick="pick(this,7,'c')"><input type="radio" name="q7"><div class="option-dot"></div><span class="option-letter">C</span> Her confidant delivered off a bouncing baby boy last year.</label>
+    <label class="option-label" onclick="pick(this,7,'d')"><input type="radio" name="q7"><div class="option-dot"></div><span class="option-letter">D</span> Her confidant delivered a bouncing baby boy last year.</label>
+  </div><div class="feedback-msg" id="fb7"></div>
+</div>
+
+<div class="q-card" id="qc8" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">8</div><div class="q-text">From the alternatives A–D, choose the one that best represents the passive form of: <em>The tutor is helping the children.</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,8,'a')"><input type="radio" name="q8"><div class="option-dot"></div><span class="option-letter">A</span> The children have been helped by the tutor.</label>
+    <label class="option-label" onclick="pick(this,8,'b')"><input type="radio" name="q8"><div class="option-dot"></div><span class="option-letter">B</span> The children are being helped by the tutor.</label>
+    <label class="option-label" onclick="pick(this,8,'c')"><input type="radio" name="q8"><div class="option-dot"></div><span class="option-letter">C</span> The children are been helped by the tutor.</label>
+    <label class="option-label" onclick="pick(this,8,'d')"><input type="radio" name="q8"><div class="option-dot"></div><span class="option-letter">D</span> The children had been helped by the tutor.</label>
+  </div><div class="feedback-msg" id="fb8"></div>
+</div>
+
+<div class="q-card" id="qc9" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">9</div><div class="q-text">From options A–D, choose the one that reflects the pattern of: <em>The bible and the cards are in the bag.</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,9,'a')"><input type="radio" name="q9"><div class="option-dot"></div><span class="option-letter">A</span> SVO</label>
+    <label class="option-label" onclick="pick(this,9,'b')"><input type="radio" name="q9"><div class="option-dot"></div><span class="option-letter">B</span> SVC</label>
+    <label class="option-label" onclick="pick(this,9,'c')"><input type="radio" name="q9"><div class="option-dot"></div><span class="option-letter">C</span> SSVA</label>
+    <label class="option-label" onclick="pick(this,9,'d')"><input type="radio" name="q9"><div class="option-dot"></div><span class="option-letter">D</span> SVA</label>
+  </div><div class="feedback-msg" id="fb9"></div>
+</div>
+
+<div class="q-card" id="qc10" data-topic="summary">
+  <div class="q-header"><div class="q-num">10</div><div class="q-text">Summaries must be written in a neutral fashion. This implies that…<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,10,'a')"><input type="radio" name="q10"><div class="option-dot"></div><span class="option-letter">A</span> The tutee summarizing must not write with his/her own words.</label>
+    <label class="option-label" onclick="pick(this,10,'b')"><input type="radio" name="q10"><div class="option-dot"></div><span class="option-letter">B</span> The tutee summarizing should write with his/her own ideas.</label>
+    <label class="option-label" onclick="pick(this,10,'c')"><input type="radio" name="q10"><div class="option-dot"></div><span class="option-letter">C</span> The tutee summarizing must not write with his/her own ideas.</label>
+    <label class="option-label" onclick="pick(this,10,'d')"><input type="radio" name="q10"><div class="option-dot"></div><span class="option-letter">D</span> The tutee summarizing may write with his/her own ideas.</label>
+  </div><div class="feedback-msg" id="fb10"></div>
+</div>
+
+<div class="q-card" id="qc11" data-topic="spelling">
+  <div class="q-header"><div class="q-num">11</div><div class="q-text">From alternatives A–D, select the one with all words correctly spelt.<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,11,'a')"><input type="radio" name="q11"><div class="option-dot"></div><span class="option-letter">A</span> In writing the letter of recommendation, Aaron shall not add on referee's details.</label>
+    <label class="option-label" onclick="pick(this,11,'b')"><input type="radio" name="q11"><div class="option-dot"></div><span class="option-letter">B</span> In writing the letter of recommendation, Aaron shall not add on refferee's details.</label>
+    <label class="option-label" onclick="pick(this,11,'c')"><input type="radio" name="q11"><div class="option-dot"></div><span class="option-letter">C</span> In writting the letter of recommendation, Aaron shall not add on referee's details.</label>
+    <label class="option-label" onclick="pick(this,11,'d')"><input type="radio" name="q11"><div class="option-dot"></div><span class="option-letter">D</span> In writting the letter of recommendation, Aaron shall not add on refferee's details.</label>
+  </div><div class="feedback-msg" id="fb11"></div>
+</div>
+
+<div class="q-card" id="qc12" data-topic="essay-types paragraphing">
+  <div class="q-header"><div class="q-num">12</div><div class="q-text">This type of paragraph often dazzles the five senses.<span class="q-badge">Essay Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,12,'a')"><input type="radio" name="q12"><div class="option-dot"></div><span class="option-letter">A</span> Expository</label>
+    <label class="option-label" onclick="pick(this,12,'b')"><input type="radio" name="q12"><div class="option-dot"></div><span class="option-letter">B</span> Descriptive</label>
+    <label class="option-label" onclick="pick(this,12,'c')"><input type="radio" name="q12"><div class="option-dot"></div><span class="option-letter">C</span> Narrative</label>
+    <label class="option-label" onclick="pick(this,12,'d')"><input type="radio" name="q12"><div class="option-dot"></div><span class="option-letter">D</span> Expressive</label>
+  </div><div class="feedback-msg" id="fb12"></div>
+</div>
+
+<div class="q-card" id="qc13" data-topic="essay-types paragraphing">
+  <div class="q-header"><div class="q-num">13</div><div class="q-text">The four main paradigms of paragraph are…<span class="q-badge">Essay Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,13,'a')"><input type="radio" name="q13"><div class="option-dot"></div><span class="option-letter">A</span> Descriptive, narrative, expository and argumentative.</label>
+    <label class="option-label" onclick="pick(this,13,'b')"><input type="radio" name="q13"><div class="option-dot"></div><span class="option-letter">B</span> Descriptive, narrative, expressive and argumentative.</label>
+    <label class="option-label" onclick="pick(this,13,'c')"><input type="radio" name="q13"><div class="option-dot"></div><span class="option-letter">C</span> Descriptive, expressive, explanatory and argumentative.</label>
+    <label class="option-label" onclick="pick(this,13,'d')"><input type="radio" name="q13"><div class="option-dot"></div><span class="option-letter">D</span> Descriptive, narrative, persuasive and argumentative.</label>
+  </div><div class="feedback-msg" id="fb13"></div>
+</div>
+
+<div class="q-card" id="qc14" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">14</div><div class="q-text">From the alternatives A–D, select the one that is correctly constructed.<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,14,'a')"><input type="radio" name="q14"><div class="option-dot"></div><span class="option-letter">A</span> Obinim boarded the plane for Ho the plane took off on time.</label>
+    <label class="option-label" onclick="pick(this,14,'b')"><input type="radio" name="q14"><div class="option-dot"></div><span class="option-letter">B</span> Obinim boarded the plane for Ho, the plane took off on time.</label>
+    <label class="option-label" onclick="pick(this,14,'c')"><input type="radio" name="q14"><div class="option-dot"></div><span class="option-letter">C</span> Obinim boarded the plane for Ho; the plane took off on time.</label>
+    <label class="option-label" onclick="pick(this,14,'d')"><input type="radio" name="q14"><div class="option-dot"></div><span class="option-letter">D</span> Obinim boarded the plane for Ho: the plane took off on time.</label>
+  </div><div class="feedback-msg" id="fb14"></div>
+</div>
+
+<div class="q-card" id="qc15" data-topic="paragraphing">
+  <div class="q-header"><div class="q-num">15</div><div class="q-text">A topic sentence implies the…<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,15,'a')"><input type="radio" name="q15"><div class="option-dot"></div><span class="option-letter">A</span> main idea of the paragraph.</label>
+    <label class="option-label" onclick="pick(this,15,'b')"><input type="radio" name="q15"><div class="option-dot"></div><span class="option-letter">B</span> coherence of the paragraph.</label>
+    <label class="option-label" onclick="pick(this,15,'c')"><input type="radio" name="q15"><div class="option-dot"></div><span class="option-letter">C</span> length of the paragraph.</label>
+    <label class="option-label" onclick="pick(this,15,'d')"><input type="radio" name="q15"><div class="option-dot"></div><span class="option-letter">D</span> controlling ideas in the paragraph.</label>
+  </div><div class="feedback-msg" id="fb15"></div>
+</div>
+
+<div class="q-card" id="qc16" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">16</div><div class="q-text">From alternatives A–D, select the one that is well punctuated.<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,16,'a')"><input type="radio" name="q16"><div class="option-dot"></div><span class="option-letter">A</span> The enlightened nurse saiD. "If you don't plan for your wellness, you are doing so for your sickness."</label>
+    <label class="option-label" onclick="pick(this,16,'b')"><input type="radio" name="q16"><div class="option-dot"></div><span class="option-letter">B</span> The enlightened nurse said, "If you don't plan for your wellness, you are doing so for your sickness."</label>
+    <label class="option-label" onclick="pick(this,16,'c')"><input type="radio" name="q16"><div class="option-dot"></div><span class="option-letter">C</span> The enlightened nurse said "If you don't plan for your wellness, you are doing so for your sickness."</label>
+    <label class="option-label" onclick="pick(this,16,'d')"><input type="radio" name="q16"><div class="option-dot"></div><span class="option-letter">D</span> The enlightened nurse said; "If you don't plan for your wellness, you are doing so for your sickness."</label>
+  </div><div class="feedback-msg" id="fb16"></div>
+</div>
+
+<div class="q-card" id="qc17" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">17</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,17,'a')"><input type="radio" name="q17"><div class="option-dot"></div><span class="option-letter">A</span> The Manager carried out the plan in accordance off the laid down procedures.</label>
+    <label class="option-label" onclick="pick(this,17,'b')"><input type="radio" name="q17"><div class="option-dot"></div><span class="option-letter">B</span> The Manager carried out the plan in accordance of the laid down procedures.</label>
+    <label class="option-label" onclick="pick(this,17,'c')"><input type="radio" name="q17"><div class="option-dot"></div><span class="option-letter">C</span> The Manager carried out the plan in accordance with the laid down procedures.</label>
+    <label class="option-label" onclick="pick(this,17,'d')"><input type="radio" name="q17"><div class="option-dot"></div><span class="option-letter">D</span> The Manager carried out the plan in accordance to the laid down procedures.</label>
+  </div><div class="feedback-msg" id="fb17"></div>
+</div>
+
+<div class="q-card" id="qc18" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">18</div><div class="q-text">From A–D, choose the alternative that has correct tense sequences.<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,18,'a')"><input type="radio" name="q18"><div class="option-dot"></div><span class="option-letter">A</span> If the new players had passed the ball, Nigeria will have had more chances to attack.</label>
+    <label class="option-label" onclick="pick(this,18,'b')"><input type="radio" name="q18"><div class="option-dot"></div><span class="option-letter">B</span> If the new players had passed the ball, Nigeria would have more chances to attack.</label>
+    <label class="option-label" onclick="pick(this,18,'c')"><input type="radio" name="q18"><div class="option-dot"></div><span class="option-letter">C</span> If the new players had passed the ball, Nigeria would have had more chances to attack.</label>
+    <label class="option-label" onclick="pick(this,18,'d')"><input type="radio" name="q18"><div class="option-dot"></div><span class="option-letter">D</span> If the new players had passed the ball, Nigeria will have more chances to attack.</label>
+  </div><div class="feedback-msg" id="fb18"></div>
+</div>
+
+<div class="q-card" id="qc19" data-topic="summary">
+  <div class="q-header"><div class="q-num">19</div><div class="q-text">The assistant lecturer questioned, "Why is it important to write in your own words as much as possible in writing summaries?"<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,19,'a')"><input type="radio" name="q19"><div class="option-dot"></div><span class="option-letter">A</span> It helps us to avoid rhetorical questions.</label>
+    <label class="option-label" onclick="pick(this,19,'b')"><input type="radio" name="q19"><div class="option-dot"></div><span class="option-letter">B</span> It helps us to eschew all main ideas.</label>
+    <label class="option-label" onclick="pick(this,19,'c')"><input type="radio" name="q19"><div class="option-dot"></div><span class="option-letter">C</span> It helps us to exclude illustrations.</label>
+    <label class="option-label" onclick="pick(this,19,'d')"><input type="radio" name="q19"><div class="option-dot"></div><span class="option-letter">D</span> It helps us to achieve brevity.</label>
+  </div><div class="feedback-msg" id="fb19"></div>
+</div>
+
+<div class="q-card" id="qc20" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">20</div><div class="q-text">From the alternatives A–D, select the one that is correctly constructed.<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,20,'a')"><input type="radio" name="q20"><div class="option-dot"></div><span class="option-letter">A</span> Cast back your mind to the season when you were a child.</label>
+    <label class="option-label" onclick="pick(this,20,'b')"><input type="radio" name="q20"><div class="option-dot"></div><span class="option-letter">B</span> For you to cast back your mind to the season when you were a child.</label>
+    <label class="option-label" onclick="pick(this,20,'c')"><input type="radio" name="q20"><div class="option-dot"></div><span class="option-letter">C</span> If you cast back your mind to the season when you were a child.</label>
+    <label class="option-label" onclick="pick(this,20,'d')"><input type="radio" name="q20"><div class="option-dot"></div><span class="option-letter">D</span> Casting back your mind to the season when you were a child.</label>
+  </div><div class="feedback-msg" id="fb20"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION B</span><span class="section-title">Passage-Based Questions</span></div>
+
+<div class="passage-box" style="margin-bottom:16px;" data-topic="passage">
+  <strong style="color:var(--blue); display:block; margin-bottom:6px;">📖 Read the passage and answer Questions 21–22 (Moral Standards)</strong>
+  <p>Today, our society is so wilfully and deliberately contravening moral excellence to worrying limits. The issue of fallen moral standards came to the fore once again when, last week, Ghanaians were petrified to see a video making the rounds on social media of eight students of the Chiana Senior High School making derogatory and unprintable comments against President Nana Addo Dankwa Akuffo-Addo. Although the students have been pardoned by the President, after they were dismissed from school, the despicable behaviour of the students cannot be swept under the carpet. The answer may be <strong>varied</strong>, as it may be traceable to their parents, their teachers, politicians and society as a whole. It is <strong>regrettable</strong> to observe that every day on television and radio we see and hear our politicians insulting and calling one another names.</p>
+</div>
+
+<div class="q-card" id="qc21" data-topic="passage parts-of-speech">
+  <div class="q-header"><div class="q-num">21</div><div class="q-text"><span class="passage-ref">📖 Passage (Moral Standards)</span>The function of the word <strong>'varied'</strong> as used in the passage is…<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,21,'a')"><input type="radio" name="q21"><div class="option-dot"></div><span class="option-letter">A</span> Complement</label>
+    <label class="option-label" onclick="pick(this,21,'b')"><input type="radio" name="q21"><div class="option-dot"></div><span class="option-letter">B</span> Subject</label>
+    <label class="option-label" onclick="pick(this,21,'c')"><input type="radio" name="q21"><div class="option-dot"></div><span class="option-letter">C</span> Object</label>
+    <label class="option-label" onclick="pick(this,21,'d')"><input type="radio" name="q21"><div class="option-dot"></div><span class="option-letter">D</span> Adverbial</label>
+  </div><div class="feedback-msg" id="fb21"></div>
+</div>
+
+<div class="q-card" id="qc22" data-topic="passage parts-of-speech">
+  <div class="q-header"><div class="q-num">22</div><div class="q-text"><span class="passage-ref">📖 Passage (Moral Standards)</span>The word <strong>'regrettable'</strong> as used in the text functions as a/an…<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,22,'a')"><input type="radio" name="q22"><div class="option-dot"></div><span class="option-letter">A</span> Adjective</label>
+    <label class="option-label" onclick="pick(this,22,'b')"><input type="radio" name="q22"><div class="option-dot"></div><span class="option-letter">B</span> Adverb</label>
+    <label class="option-label" onclick="pick(this,22,'c')"><input type="radio" name="q22"><div class="option-dot"></div><span class="option-letter">C</span> Noun</label>
+    <label class="option-label" onclick="pick(this,22,'d')"><input type="radio" name="q22"><div class="option-dot"></div><span class="option-letter">D</span> Verb</label>
+  </div><div class="feedback-msg" id="fb22"></div>
+</div>
+
+<div class="passage-box" style="margin-bottom:16px; margin-top:24px;" data-topic="passage">
+  <strong style="color:var(--blue); display:block; margin-bottom:6px;">📖 Read the passage and answer Questions 23–34 (Emeka &amp; Victor)</strong>
+  <p>No one would believe that Emeka and Victor were twins; they were totally different from each other. Although Emeka was only ten minutes older than his twin brother, relatives seemed ridiculously obsessed with this sheer accident of their birth. Mother, father, aunties and uncles regularly drummed the point into Victor's head. They told him, in no uncertain terms, that, in the patrilineal set-up of their society, he had to <strong>succumb</strong> to the whims and caprices of Emeka, because the latter was the first-born son of the family. Everyone wondered how it was that Victor could be calmness personified, while his twin brother was as boisterous as he was aggressive. Their classmates concealed their regard for Victor in their unlikely <strong>taunt</strong>, "Young old man".</p>
+  <p>When their mother was going away for a fortnight, she called all four of her children and told them that she had to leave everything in Emeka's hands. He let hell loose in the form of rowdy parties, eating sprees, video sessions… the complete works! When, by Saturday of the first week, the children found the food cupboard totally empty, because its contents had been gobbled down by Emeka's gang, Victor realized it was time for him to do something. Without making any fuss, he took his sisters to their aunt's house to eat once a day. The girls were never really <strong>full</strong>, but Victor convinced them that one always made sacrifices and bore discomfort bravely when one's mother was away. He could not bear was Victor's silent scorn and utter contempt for him. "Damn Victor," he swore vulgarly, and wished he could infect this <strong>paragon</strong> with his wild ways.</p>
+  <p>As soon as their mother returned, the girls launched into an elaborate account of conditions under Emeka's "regime". Just as the girls finished complaining, Emeka <strong>sauntered</strong> into the house. Nobody said anything to him. In fact, you could hear a pin drop. The silence was far worse than a slap would have been.</p>
+  <span class="passage-quote">"You could hear a pin drop"</span>
+</div>
+
+<div class="q-card" id="qc23" data-topic="passage">
+  <div class="q-header"><div class="q-num">23</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>What does the extract "You could hear a pin drop" mean in context?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,23,'a')"><input type="radio" name="q23"><div class="option-dot"></div><span class="option-letter">A</span> The house was very quiet.</label>
+    <label class="option-label" onclick="pick(this,23,'b')"><input type="radio" name="q23"><div class="option-dot"></div><span class="option-letter">B</span> They could literally hear a pin fall.</label>
+    <label class="option-label" onclick="pick(this,23,'c')"><input type="radio" name="q23"><div class="option-dot"></div><span class="option-letter">C</span> Everyone was listening carefully.</label>
+    <label class="option-label" onclick="pick(this,23,'d')"><input type="radio" name="q23"><div class="option-dot"></div><span class="option-letter">D</span> The house was empty.</label>
+  </div><div class="feedback-msg" id="fb23"></div>
+</div>
+
+<div class="q-card" id="qc24" data-topic="passage parts-of-speech">
+  <div class="q-header"><div class="q-num">24</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>What is the grammatical name for the extract "You could hear a pin drop"?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,24,'a')"><input type="radio" name="q24"><div class="option-dot"></div><span class="option-letter">A</span> Noun phrase</label>
+    <label class="option-label" onclick="pick(this,24,'b')"><input type="radio" name="q24"><div class="option-dot"></div><span class="option-letter">B</span> Verb phrase</label>
+    <label class="option-label" onclick="pick(this,24,'c')"><input type="radio" name="q24"><div class="option-dot"></div><span class="option-letter">C</span> Adverbial clause</label>
+    <label class="option-label" onclick="pick(this,24,'d')"><input type="radio" name="q24"><div class="option-dot"></div><span class="option-letter">D</span> Prepositional phrase</label>
+  </div><div class="feedback-msg" id="fb24"></div>
+</div>
+
+<div class="q-card" id="qc25" data-topic="passage">
+  <div class="q-header"><div class="q-num">25</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>Why did the writer use the expression "You could hear a pin drop"?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,25,'a')"><input type="radio" name="q25"><div class="option-dot"></div><span class="option-letter">A</span> To show the house was silent.</label>
+    <label class="option-label" onclick="pick(this,25,'b')"><input type="radio" name="q25"><div class="option-dot"></div><span class="option-letter">B</span> To show the extent of the effect of Emeka's behaviour on his family.</label>
+    <label class="option-label" onclick="pick(this,25,'c')"><input type="radio" name="q25"><div class="option-dot"></div><span class="option-letter">C</span> To show that the mother was very angry.</label>
+    <label class="option-label" onclick="pick(this,25,'d')"><input type="radio" name="q25"><div class="option-dot"></div><span class="option-letter">D</span> To emphasise the quietness of the neighbourhood.</label>
+  </div><div class="feedback-msg" id="fb25"></div>
+</div>
+
+<div class="q-card" id="qc26" data-topic="passage">
+  <div class="q-header"><div class="q-num">26</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>Why did people find it difficult to believe Emeka and Victor were twins?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,26,'a')"><input type="radio" name="q26"><div class="option-dot"></div><span class="option-letter">A</span> They behaved very differently.</label>
+    <label class="option-label" onclick="pick(this,26,'b')"><input type="radio" name="q26"><div class="option-dot"></div><span class="option-letter">B</span> They looked very different.</label>
+    <label class="option-label" onclick="pick(this,26,'c')"><input type="radio" name="q26"><div class="option-dot"></div><span class="option-letter">C</span> They were not born together.</label>
+    <label class="option-label" onclick="pick(this,26,'d')"><input type="radio" name="q26"><div class="option-dot"></div><span class="option-letter">D</span> They lived in different houses.</label>
+  </div><div class="feedback-msg" id="fb26"></div>
+</div>
+
+<div class="q-card" id="qc27" data-topic="passage">
+  <div class="q-header"><div class="q-num">27</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>How did Victor react to the reminders that he should do whatever Emeka wanted?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,27,'a')"><input type="radio" name="q27"><div class="option-dot"></div><span class="option-letter">A</span> He withdrew into himself.</label>
+    <label class="option-label" onclick="pick(this,27,'b')"><input type="radio" name="q27"><div class="option-dot"></div><span class="option-letter">B</span> He became very angry.</label>
+    <label class="option-label" onclick="pick(this,27,'c')"><input type="radio" name="q27"><div class="option-dot"></div><span class="option-letter">C</span> He obeyed Emeka immediately.</label>
+    <label class="option-label" onclick="pick(this,27,'d')"><input type="radio" name="q27"><div class="option-dot"></div><span class="option-letter">D</span> He reported to their mother.</label>
+  </div><div class="feedback-msg" id="fb27"></div>
+</div>
+
+<div class="q-card" id="qc28" data-topic="passage">
+  <div class="q-header"><div class="q-num">28</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>Describe Victor's attitude towards Emeka in one word.<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,28,'a')"><input type="radio" name="q28"><div class="option-dot"></div><span class="option-letter">A</span> Apathetic</label>
+    <label class="option-label" onclick="pick(this,28,'b')"><input type="radio" name="q28"><div class="option-dot"></div><span class="option-letter">B</span> Hostile</label>
+    <label class="option-label" onclick="pick(this,28,'c')"><input type="radio" name="q28"><div class="option-dot"></div><span class="option-letter">C</span> Fearful</label>
+    <label class="option-label" onclick="pick(this,28,'d')"><input type="radio" name="q28"><div class="option-dot"></div><span class="option-letter">D</span> Admiring</label>
+  </div><div class="feedback-msg" id="fb28"></div>
+</div>
+
+<div class="q-card" id="qc29" data-topic="passage">
+  <div class="q-header"><div class="q-num">29</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>How did the classmates really feel about Victor?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,29,'a')"><input type="radio" name="q29"><div class="option-dot"></div><span class="option-letter">A</span> Indifferent about him.</label>
+    <label class="option-label" onclick="pick(this,29,'b')"><input type="radio" name="q29"><div class="option-dot"></div><span class="option-letter">B</span> They secretly admired him.</label>
+    <label class="option-label" onclick="pick(this,29,'c')"><input type="radio" name="q29"><div class="option-dot"></div><span class="option-letter">C</span> They feared him.</label>
+    <label class="option-label" onclick="pick(this,29,'d')"><input type="radio" name="q29"><div class="option-dot"></div><span class="option-letter">D</span> They despised him openly.</label>
+  </div><div class="feedback-msg" id="fb29"></div>
+</div>
+
+<div class="q-card" id="qc30" data-topic="passage">
+  <div class="q-header"><div class="q-num">30</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>Why did their mother leave the house in Emeka's charge?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,30,'a')"><input type="radio" name="q30"><div class="option-dot"></div><span class="option-letter">A</span> Because tradition demanded that Emeka had to take charge.</label>
+    <label class="option-label" onclick="pick(this,30,'b')"><input type="radio" name="q30"><div class="option-dot"></div><span class="option-letter">B</span> Because Emeka was more responsible.</label>
+    <label class="option-label" onclick="pick(this,30,'c')"><input type="radio" name="q30"><div class="option-dot"></div><span class="option-letter">C</span> Because Victor was too young.</label>
+    <label class="option-label" onclick="pick(this,30,'d')"><input type="radio" name="q30"><div class="option-dot"></div><span class="option-letter">D</span> Because the girls preferred Emeka.</label>
+  </div><div class="feedback-msg" id="fb30"></div>
+</div>
+
+<div class="q-card" id="qc31" data-topic="passage">
+  <div class="q-header"><div class="q-num">31</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>Why did the girls' faces begin to get pale?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,31,'a')"><input type="radio" name="q31"><div class="option-dot"></div><span class="option-letter">A</span> They were always hungry.</label>
+    <label class="option-label" onclick="pick(this,31,'b')"><input type="radio" name="q31"><div class="option-dot"></div><span class="option-letter">B</span> They were sick.</label>
+    <label class="option-label" onclick="pick(this,31,'c')"><input type="radio" name="q31"><div class="option-dot"></div><span class="option-letter">C</span> They were scared of Emeka.</label>
+    <label class="option-label" onclick="pick(this,31,'d')"><input type="radio" name="q31"><div class="option-dot"></div><span class="option-letter">D</span> They missed their mother terribly.</label>
+  </div><div class="feedback-msg" id="fb31"></div>
+</div>
+
+<div class="q-card" id="qc32" data-topic="passage">
+  <div class="q-header"><div class="q-num">32</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>In one adjective, describe the writer's attitude to the fact that Emeka was ten minutes older than Victor.<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,32,'a')"><input type="radio" name="q32"><div class="option-dot"></div><span class="option-letter">A</span> Ridiculous</label>
+    <label class="option-label" onclick="pick(this,32,'b')"><input type="radio" name="q32"><div class="option-dot"></div><span class="option-letter">B</span> Serious</label>
+    <label class="option-label" onclick="pick(this,32,'c')"><input type="radio" name="q32"><div class="option-dot"></div><span class="option-letter">C</span> Ironic</label>
+    <label class="option-label" onclick="pick(this,32,'d')"><input type="radio" name="q32"><div class="option-dot"></div><span class="option-letter">D</span> Sympathetic</label>
+  </div><div class="feedback-msg" id="fb32"></div>
+</div>
+
+<div class="q-card" id="qc33" data-topic="passage">
+  <div class="q-header"><div class="q-num">33</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>"To succumb" can have a morbid meaning in other contexts. What is this other meaning?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,33,'a')"><input type="radio" name="q33"><div class="option-dot"></div><span class="option-letter">A</span> To surrender</label>
+    <label class="option-label" onclick="pick(this,33,'b')"><input type="radio" name="q33"><div class="option-dot"></div><span class="option-letter">B</span> To die</label>
+    <label class="option-label" onclick="pick(this,33,'c')"><input type="radio" name="q33"><div class="option-dot"></div><span class="option-letter">C</span> To suffer</label>
+    <label class="option-label" onclick="pick(this,33,'d')"><input type="radio" name="q33"><div class="option-dot"></div><span class="option-letter">D</span> To escape</label>
+  </div><div class="feedback-msg" id="fb33"></div>
+</div>
+
+<div class="q-card" id="qc34" data-topic="passage">
+  <div class="q-header"><div class="q-num">34</div><div class="q-text"><span class="passage-ref">📖 Passage (Emeka &amp; Victor)</span>"Gobbled down" — what does this mean in the context of the passage?<span class="q-badge">Passage</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,34,'a')"><input type="radio" name="q34"><div class="option-dot"></div><span class="option-letter">A</span> Hungrily eaten</label>
+    <label class="option-label" onclick="pick(this,34,'b')"><input type="radio" name="q34"><div class="option-dot"></div><span class="option-letter">B</span> Quickly prepared</label>
+    <label class="option-label" onclick="pick(this,34,'c')"><input type="radio" name="q34"><div class="option-dot"></div><span class="option-letter">C</span> Secretly taken</label>
+    <label class="option-label" onclick="pick(this,34,'d')"><input type="radio" name="q34"><div class="option-dot"></div><span class="option-letter">D</span> Wasted away</label>
+  </div><div class="feedback-msg" id="fb34"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION C</span><span class="section-title">Grammar, Concord &amp; Style</span></div>
+
+<div class="q-card" id="qc35" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">35</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,35,'a')"><input type="radio" name="q35"><div class="option-dot"></div><span class="option-letter">A</span> The principals discuss in the procedures for cross-disciplinary analysis.</label>
+    <label class="option-label" onclick="pick(this,35,'b')"><input type="radio" name="q35"><div class="option-dot"></div><span class="option-letter">B</span> The principals discuss the procedures for cross-disciplinary analysis.</label>
+    <label class="option-label" onclick="pick(this,35,'c')"><input type="radio" name="q35"><div class="option-dot"></div><span class="option-letter">C</span> The principals discuss with the procedures for cross-disciplinary analysis.</label>
+    <label class="option-label" onclick="pick(this,35,'d')"><input type="radio" name="q35"><div class="option-dot"></div><span class="option-letter">D</span> The principals discuss about the procedures for cross disciplinary analysis.</label>
+  </div><div class="feedback-msg" id="fb35"></div>
+</div>
+
+<div class="q-card" id="qc36" data-topic="concord">
+  <div class="q-header"><div class="q-num">36</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,36,'a')"><input type="radio" name="q36"><div class="option-dot"></div><span class="option-letter">A</span> There is a lot of students in the Complex which are packed with the complex apparatuses.</label>
+    <label class="option-label" onclick="pick(this,36,'b')"><input type="radio" name="q36"><div class="option-dot"></div><span class="option-letter">B</span> There are a lot of people in the Complex which is packed with the complex apparatuses.</label>
+    <label class="option-label" onclick="pick(this,36,'c')"><input type="radio" name="q36"><div class="option-dot"></div><span class="option-letter">C</span> There are a lot of workers in the Complex which are packed with the complex apparatuses.</label>
+    <label class="option-label" onclick="pick(this,36,'d')"><input type="radio" name="q36"><div class="option-dot"></div><span class="option-letter">D</span> There is a lot of lecturers in the Complex which is packed with the complex apparatuses.</label>
+  </div><div class="feedback-msg" id="fb36"></div>
+</div>
+
+<div class="q-card" id="qc37" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">37</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,37,'a')"><input type="radio" name="q37"><div class="option-dot"></div><span class="option-letter">A</span> Riley and Stella are awaiting of the results of their End of Semester Examinations.</label>
+    <label class="option-label" onclick="pick(this,37,'b')"><input type="radio" name="q37"><div class="option-dot"></div><span class="option-letter">B</span> Riley and Stella are awaiting for the results of their End of Semester Examinations.</label>
+    <label class="option-label" onclick="pick(this,37,'c')"><input type="radio" name="q37"><div class="option-dot"></div><span class="option-letter">C</span> Riley and Stella are awaiting the results of their End of Semester Examinations.</label>
+    <label class="option-label" onclick="pick(this,37,'d')"><input type="radio" name="q37"><div class="option-dot"></div><span class="option-letter">D</span> Riley and Stella are awaiting off the results of their End of Semester Examinations.</label>
+  </div><div class="feedback-msg" id="fb37"></div>
+</div>
+
+<div class="q-card" id="qc38" data-topic="concord">
+  <div class="q-header"><div class="q-num">38</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,38,'a')"><input type="radio" name="q38"><div class="option-dot"></div><span class="option-letter">A</span> The advice from the chairman suggests that all the visitors have to leave campus by 5:00pm.</label>
+    <label class="option-label" onclick="pick(this,38,'b')"><input type="radio" name="q38"><div class="option-dot"></div><span class="option-letter">B</span> The advice from the chancellor suggest that all the visitors have to leave campus by 5:00pm.</label>
+    <label class="option-label" onclick="pick(this,38,'c')"><input type="radio" name="q38"><div class="option-dot"></div><span class="option-letter">C</span> The advice from the chairperson suggests that all the visitors has to leave campus by 5:00pm.</label>
+    <label class="option-label" onclick="pick(this,38,'d')"><input type="radio" name="q38"><div class="option-dot"></div><span class="option-letter">D</span> The advice from the SRC president suggest that all the visitors has to leave campus by 5:00pm.</label>
+  </div><div class="feedback-msg" id="fb38"></div>
+</div>
+
+<div class="q-card" id="qc39" data-topic="concord">
+  <div class="q-header"><div class="q-num">39</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,39,'a')"><input type="radio" name="q39"><div class="option-dot"></div><span class="option-letter">A</span> The fictionist and artist is visiting today.</label>
+    <label class="option-label" onclick="pick(this,39,'b')"><input type="radio" name="q39"><div class="option-dot"></div><span class="option-letter">B</span> The fictionist and artist are visiting today.</label>
+    <label class="option-label" onclick="pick(this,39,'c')"><input type="radio" name="q39"><div class="option-dot"></div><span class="option-letter">C</span> The fictionist and the artist is visiting today.</label>
+    <label class="option-label" onclick="pick(this,39,'d')"><input type="radio" name="q39"><div class="option-dot"></div><span class="option-letter">D</span> The fictionists and the artists is visiting today.</label>
+  </div><div class="feedback-msg" id="fb39"></div>
+</div>
+
+<div class="q-card" id="qc40" data-topic="parallelism sentence-structure">
+  <div class="q-header"><div class="q-num">40</div><div class="q-text">From the alternatives A–D, select the one that is correctly constructed (parallel structure).<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,40,'a')"><input type="radio" name="q40"><div class="option-dot"></div><span class="option-letter">A</span> The international coach opined that in local games, remember these three goals: get your pieces to the centre, capture the opposing pieces, and attack the opposing king.</label>
+    <label class="option-label" onclick="pick(this,40,'b')"><input type="radio" name="q40"><div class="option-dot"></div><span class="option-letter">B</span> The international coach opined that in local games, remember these three goals: get your pieces to the centre, capturing the opposing pieces, and attacking the opposing king.</label>
+    <label class="option-label" onclick="pick(this,40,'c')"><input type="radio" name="q40"><div class="option-dot"></div><span class="option-letter">C</span> The international coach opined that in local games, remember these three goals: getting your pieces to the centre, capture the opposing pieces, and attack the opposing king.</label>
+    <label class="option-label" onclick="pick(this,40,'d')"><input type="radio" name="q40"><div class="option-dot"></div><span class="option-letter">D</span> The international coach opined that in local games, remember these three goals: get your pieces to the centre, capture the opposing pieces, and attacking the opposing king.</label>
+  </div><div class="feedback-msg" id="fb40"></div>
+</div>
+
+<div class="q-card" id="qc41" data-topic="paragraphing">
+  <div class="q-header"><div class="q-num">41</div><div class="q-text">The Professor noted that a paragraph violates the principle of cohesion when…<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,41,'a')"><input type="radio" name="q41"><div class="option-dot"></div><span class="option-letter">A</span> it has connections.</label>
+    <label class="option-label" onclick="pick(this,41,'b')"><input type="radio" name="q41"><div class="option-dot"></div><span class="option-letter">B</span> its sentences are organised.</label>
+    <label class="option-label" onclick="pick(this,41,'c')"><input type="radio" name="q41"><div class="option-dot"></div><span class="option-letter">C</span> its sentences are not interconnected.</label>
+    <label class="option-label" onclick="pick(this,41,'d')"><input type="radio" name="q41"><div class="option-dot"></div><span class="option-letter">D</span> it is well organised.</label>
+  </div><div class="feedback-msg" id="fb41"></div>
+</div>
+
+<div class="q-card" id="qc42" data-topic="concord">
+  <div class="q-header"><div class="q-num">42</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,42,'a')"><input type="radio" name="q42"><div class="option-dot"></div><span class="option-letter">A</span> The announcement from the five media houses sound and seem captivating to Ghanaians.</label>
+    <label class="option-label" onclick="pick(this,42,'b')"><input type="radio" name="q42"><div class="option-dot"></div><span class="option-letter">B</span> The announcement from the five media houses sounds and seems captivating to Ghanaians.</label>
+    <label class="option-label" onclick="pick(this,42,'c')"><input type="radio" name="q42"><div class="option-dot"></div><span class="option-letter">C</span> The announcement from the five media houses sounds and seem captivating to Ghanaians.</label>
+    <label class="option-label" onclick="pick(this,42,'d')"><input type="radio" name="q42"><div class="option-dot"></div><span class="option-letter">D</span> The announcement from the five media houses sound and seems captivating to Ghanaians.</label>
+  </div><div class="feedback-msg" id="fb42"></div>
+</div>
+
+<div class="q-card" id="qc43" data-topic="summary paragraphing">
+  <div class="q-header"><div class="q-num">43</div><div class="q-text">The college principal ordered, "It is important to pay attention to signal words in writing summaries" because…<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,43,'a')"><input type="radio" name="q43"><div class="option-dot"></div><span class="option-letter">A</span> They help us to identify the paragraphs.</label>
+    <label class="option-label" onclick="pick(this,43,'b')"><input type="radio" name="q43"><div class="option-dot"></div><span class="option-letter">B</span> They help us to recognize the points being put across.</label>
+    <label class="option-label" onclick="pick(this,43,'c')"><input type="radio" name="q43"><div class="option-dot"></div><span class="option-letter">C</span> They draw our attention to illustrations.</label>
+    <label class="option-label" onclick="pick(this,43,'d')"><input type="radio" name="q43"><div class="option-dot"></div><span class="option-letter">D</span> They draw our attention to examples.</label>
+  </div><div class="feedback-msg" id="fb43"></div>
+</div>
+
+<div class="q-card" id="qc44" data-topic="spelling">
+  <div class="q-header"><div class="q-num">44</div><div class="q-text">From alternatives A–D, select the one with all words correctly spelt.<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,44,'a')"><input type="radio" name="q44"><div class="option-dot"></div><span class="option-letter">A</span> The directors recieved their paycheck that month.</label>
+    <label class="option-label" onclick="pick(this,44,'b')"><input type="radio" name="q44"><div class="option-dot"></div><span class="option-letter">B</span> The directors received their paycheck that month.</label>
+    <label class="option-label" onclick="pick(this,44,'c')"><input type="radio" name="q44"><div class="option-dot"></div><span class="option-letter">C</span> The directors recieved their paycheck that month.</label>
+    <label class="option-label" onclick="pick(this,44,'d')"><input type="radio" name="q44"><div class="option-dot"></div><span class="option-letter">D</span> The directors receaved their paycheck that month.</label>
+  </div><div class="feedback-msg" id="fb44"></div>
+</div>
+
+<div class="q-card" id="qc45" data-topic="concord">
+  <div class="q-header"><div class="q-num">45</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,45,'a')"><input type="radio" name="q45"><div class="option-dot"></div><span class="option-letter">A</span> The bases of his defense that bolsters equity is strong.</label>
+    <label class="option-label" onclick="pick(this,45,'b')"><input type="radio" name="q45"><div class="option-dot"></div><span class="option-letter">B</span> The bases of his defense that bolsters equity are strong.</label>
+    <label class="option-label" onclick="pick(this,45,'c')"><input type="radio" name="q45"><div class="option-dot"></div><span class="option-letter">C</span> The bases of his defense that bolsters equity was strong.</label>
+    <label class="option-label" onclick="pick(this,45,'d')"><input type="radio" name="q45"><div class="option-dot"></div><span class="option-letter">D</span> The basis of his defense that bolsters equity are strong.</label>
+  </div><div class="feedback-msg" id="fb45"></div>
+</div>
+
+<div class="q-card" id="qc46" data-topic="spelling">
+  <div class="q-header"><div class="q-num">46</div><div class="q-text">From alternatives A–D, select the one with all words correctly spelt.<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,46,'a')"><input type="radio" name="q46"><div class="option-dot"></div><span class="option-letter">A</span> The provosts were gratefull to the organisers for the webinar for the underpriviledged students.</label>
+    <label class="option-label" onclick="pick(this,46,'b')"><input type="radio" name="q46"><div class="option-dot"></div><span class="option-letter">B</span> The provosts were greateful to the organisers for the webinar for the underpriviledged students.</label>
+    <label class="option-label" onclick="pick(this,46,'c')"><input type="radio" name="q46"><div class="option-dot"></div><span class="option-letter">C</span> The provosts were grateful to the organisers for the webinar for the underprivileged students.</label>
+    <label class="option-label" onclick="pick(this,46,'d')"><input type="radio" name="q46"><div class="option-dot"></div><span class="option-letter">D</span> The provosts were gratful to the organisers for the webinar for the underprivileged students.</label>
+  </div><div class="feedback-msg" id="fb46"></div>
+</div>
+
+<div class="q-card" id="qc47" data-topic="concord">
+  <div class="q-header"><div class="q-num">47</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,47,'a')"><input type="radio" name="q47"><div class="option-dot"></div><span class="option-letter">A</span> It is high time we concede that the leader and founder of the confederacy have handed over.</label>
+    <label class="option-label" onclick="pick(this,47,'b')"><input type="radio" name="q47"><div class="option-dot"></div><span class="option-letter">B</span> It is high time we concede that the leader and founder of the confederacy has handed over.</label>
+    <label class="option-label" onclick="pick(this,47,'c')"><input type="radio" name="q47"><div class="option-dot"></div><span class="option-letter">C</span> It is high time we conceded that the leader and founder of the confederacy has handed over.</label>
+    <label class="option-label" onclick="pick(this,47,'d')"><input type="radio" name="q47"><div class="option-dot"></div><span class="option-letter">D</span> It is high time we conceded that the leader and founder of the confederacy have handed over.</label>
+  </div><div class="feedback-msg" id="fb47"></div>
+</div>
+
+<div class="q-card" id="qc48" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">48</div><div class="q-text">From alternatives A–D, select the one that is well punctuated.<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,48,'a')"><input type="radio" name="q48"><div class="option-dot"></div><span class="option-letter">A</span> During the afternoons, when the kids are home and playing in the garden with their friends, I spend a lot of time sitting on the front stoop with my dietician.</label>
+    <label class="option-label" onclick="pick(this,48,'b')"><input type="radio" name="q48"><div class="option-dot"></div><span class="option-letter">B</span> During the afternoons; when the kids are home and playing in the garden with their friends; I spend a lot of time sitting on the front stoop with my dietician.</label>
+    <label class="option-label" onclick="pick(this,48,'c')"><input type="radio" name="q48"><div class="option-dot"></div><span class="option-letter">C</span> During the afternoons, when the kids are home and playing in the garden with their friends; I spend a lot of time sitting on the front stoop with my dietician.</label>
+    <label class="option-label" onclick="pick(this,48,'d')"><input type="radio" name="q48"><div class="option-dot"></div><span class="option-letter">D</span> During the afternoons; when the kids are home and playing in the garden with their friends, I spend a lot of time sitting on the front stoop with my dietician.</label>
+  </div><div class="feedback-msg" id="fb48"></div>
+</div>
+
+<div class="q-card" id="qc49" data-topic="concord">
+  <div class="q-header"><div class="q-num">49</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,49,'a')"><input type="radio" name="q49"><div class="option-dot"></div><span class="option-letter">A</span> The senior members in the tertiary institutions do not know the full needs of its potential employers.</label>
+    <label class="option-label" onclick="pick(this,49,'b')"><input type="radio" name="q49"><div class="option-dot"></div><span class="option-letter">B</span> The gentlemen in the tertiary institutions does not know the full needs of its potential employers.</label>
+    <label class="option-label" onclick="pick(this,49,'c')"><input type="radio" name="q49"><div class="option-dot"></div><span class="option-letter">C</span> The employees in the tertiary institutions do not know the full needs of their potential employers.</label>
+    <label class="option-label" onclick="pick(this,49,'d')"><input type="radio" name="q49"><div class="option-dot"></div><span class="option-letter">D</span> The ladies in the tertiary institutions does not know the full needs of their potential employers.</label>
+  </div><div class="feedback-msg" id="fb49"></div>
+</div>
+
+<div class="q-card" id="qc50" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">50</div><div class="q-text">From the alternatives A–D, select the one that is correctly constructed.<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,50,'a')"><input type="radio" name="q50"><div class="option-dot"></div><span class="option-letter">A</span> The linguist knowing that she will travel next year.</label>
+    <label class="option-label" onclick="pick(this,50,'b')"><input type="radio" name="q50"><div class="option-dot"></div><span class="option-letter">B</span> The linguist to travel next year.</label>
+    <label class="option-label" onclick="pick(this,50,'c')"><input type="radio" name="q50"><div class="option-dot"></div><span class="option-letter">C</span> The linguist who will be travelling next year.</label>
+    <label class="option-label" onclick="pick(this,50,'d')"><input type="radio" name="q50"><div class="option-dot"></div><span class="option-letter">D</span> The linguist has to travel next year.</label>
+  </div><div class="feedback-msg" id="fb50"></div>
+</div>
+
+<div class="q-card" id="qc51" data-topic="spelling">
+  <div class="q-header"><div class="q-num">51</div><div class="q-text">From alternatives A–D, select the one with all words correctly spelt.<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,51,'a')"><input type="radio" name="q51"><div class="option-dot"></div><span class="option-letter">A</span> The conscripts being trained for rain forest assault teams could learn how painstaking it is to beseege a hilltop bastion.</label>
+    <label class="option-label" onclick="pick(this,51,'b')"><input type="radio" name="q51"><div class="option-dot"></div><span class="option-letter">B</span> The conscripts being trained for rain forest assault teams could learn how painstaking it is to beseige a hilltop bastion.</label>
+    <label class="option-label" onclick="pick(this,51,'c')"><input type="radio" name="q51"><div class="option-dot"></div><span class="option-letter">C</span> The conscripts being trained for rain forest assault teams could learn how painetaking it is to besiege a hilltop bastion.</label>
+    <label class="option-label" onclick="pick(this,51,'d')"><input type="radio" name="q51"><div class="option-dot"></div><span class="option-letter">D</span> The conscripts being trained for rain forest assault teams could learn how painstaking it is to besiege a hilltop bastion.</label>
+  </div><div class="feedback-msg" id="fb51"></div>
+</div>
+
+<div class="q-card" id="qc52" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">52</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,52,'a')"><input type="radio" name="q52"><div class="option-dot"></div><span class="option-letter">A</span> Duku's lifestyle mimics the realities of godliness.</label>
+    <label class="option-label" onclick="pick(this,52,'b')"><input type="radio" name="q52"><div class="option-dot"></div><span class="option-letter">B</span> Duku's lifestyle mimics in the realities of godliness.</label>
+    <label class="option-label" onclick="pick(this,52,'c')"><input type="radio" name="q52"><div class="option-dot"></div><span class="option-letter">C</span> Duku's lifestyle mimics with the realities of godliness.</label>
+    <label class="option-label" onclick="pick(this,52,'d')"><input type="radio" name="q52"><div class="option-dot"></div><span class="option-letter">D</span> Duku's lifestyle mimics on the realities of godliness.</label>
+  </div><div class="feedback-msg" id="fb52"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION D</span><span class="section-title">Sentence Patterns, Functions &amp; Interrogatives</span></div>
+
+<div class="q-card" id="qc53" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">53</div><div class="q-text">From A–D, choose the sentence that has the functional pattern: <strong>SVC</strong><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,53,'a')"><input type="radio" name="q53"><div class="option-dot"></div><span class="option-letter">A</span> I call you every hour.</label>
+    <label class="option-label" onclick="pick(this,53,'b')"><input type="radio" name="q53"><div class="option-dot"></div><span class="option-letter">B</span> Hawkers and traders have taken over the Central Business District.</label>
+    <label class="option-label" onclick="pick(this,53,'c')"><input type="radio" name="q53"><div class="option-dot"></div><span class="option-letter">C</span> I come from Nandom.</label>
+    <label class="option-label" onclick="pick(this,53,'d')"><input type="radio" name="q53"><div class="option-dot"></div><span class="option-letter">D</span> They are good friends.</label>
+  </div><div class="feedback-msg" id="fb53"></div>
+</div>
+
+<div class="q-card" id="qc54" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">54</div><div class="q-text">All but one of the following are statement questions. Which one is NOT a statement question?<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,54,'a')"><input type="radio" name="q54"><div class="option-dot"></div><span class="option-letter">A</span> Are you all right?</label>
+    <label class="option-label" onclick="pick(this,54,'b')"><input type="radio" name="q54"><div class="option-dot"></div><span class="option-letter">B</span> You know issue very well?</label>
+    <label class="option-label" onclick="pick(this,54,'c')"><input type="radio" name="q54"><div class="option-dot"></div><span class="option-letter">C</span> He took all those advice from his pastor?</label>
+    <label class="option-label" onclick="pick(this,54,'d')"><input type="radio" name="q54"><div class="option-dot"></div><span class="option-letter">D</span> You are sure he said that?</label>
+  </div><div class="feedback-msg" id="fb54"></div>
+</div>
+
+<div class="q-card" id="qc55" data-topic="ambiguity">
+  <div class="q-header"><div class="q-num">55</div><div class="q-text">From A–D, identify the source of ambiguity in: <em>"The hall master has refused to enter dirty students' dormitory."</em><span class="q-badge">Ambiguity</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,55,'a')"><input type="radio" name="q55"><div class="option-dot"></div><span class="option-letter">A</span> Wrong placement of adjective.</label>
+    <label class="option-label" onclick="pick(this,55,'b')"><input type="radio" name="q55"><div class="option-dot"></div><span class="option-letter">B</span> Wrong place of preposition.</label>
+    <label class="option-label" onclick="pick(this,55,'c')"><input type="radio" name="q55"><div class="option-dot"></div><span class="option-letter">C</span> Wrong place of the subject.</label>
+    <label class="option-label" onclick="pick(this,55,'d')"><input type="radio" name="q55"><div class="option-dot"></div><span class="option-letter">D</span> Wrong placement of adverb.</label>
+  </div><div class="feedback-msg" id="fb55"></div>
+</div>
+
+<div class="q-card" id="qc56" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">56</div><div class="q-text">Which of the following interrogatives contains a "dummy do"?<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,56,'a')"><input type="radio" name="q56"><div class="option-dot"></div><span class="option-letter">A</span> He did the work well, didn't he?</label>
+    <label class="option-label" onclick="pick(this,56,'b')"><input type="radio" name="q56"><div class="option-dot"></div><span class="option-letter">B</span> Can't we do away with his services?</label>
+    <label class="option-label" onclick="pick(this,56,'c')"><input type="radio" name="q56"><div class="option-dot"></div><span class="option-letter">C</span> Why do you look so depressed and forsaken?</label>
+    <label class="option-label" onclick="pick(this,56,'d')"><input type="radio" name="q56"><div class="option-dot"></div><span class="option-letter">D</span> You want to do me a favour?</label>
+  </div><div class="feedback-msg" id="fb56"></div>
+</div>
+
+<div class="q-card" id="qc57" data-topic="parts-of-speech sentence-structure">
+  <div class="q-header"><div class="q-num">57</div><div class="q-text">Identify the function of the capitalized phrase: <em>The President of Qatar addressed the citizenry <strong>AT THE 66TH INDEPENDENCE DAY CELEBRATION</strong>.</em><span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,57,'a')"><input type="radio" name="q57"><div class="option-dot"></div><span class="option-letter">A</span> Complement</label>
+    <label class="option-label" onclick="pick(this,57,'b')"><input type="radio" name="q57"><div class="option-dot"></div><span class="option-letter">B</span> Indirect object</label>
+    <label class="option-label" onclick="pick(this,57,'c')"><input type="radio" name="q57"><div class="option-dot"></div><span class="option-letter">C</span> Adverbial</label>
+    <label class="option-label" onclick="pick(this,57,'d')"><input type="radio" name="q57"><div class="option-dot"></div><span class="option-letter">D</span> Direct object</label>
+  </div><div class="feedback-msg" id="fb57"></div>
+</div>
+
+<div class="q-card" id="qc58" data-topic="summary">
+  <div class="q-header"><div class="q-num">58</div><div class="q-text">Why is it important to write in your own words as much as possible in writing summaries?<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,58,'a')"><input type="radio" name="q58"><div class="option-dot"></div><span class="option-letter">A</span> It helps us to achieve conciseness.</label>
+    <label class="option-label" onclick="pick(this,58,'b')"><input type="radio" name="q58"><div class="option-dot"></div><span class="option-letter">B</span> It helps us to thwart all main ideas.</label>
+    <label class="option-label" onclick="pick(this,58,'c')"><input type="radio" name="q58"><div class="option-dot"></div><span class="option-letter">C</span> It helps us to eliminate illustrations.</label>
+    <label class="option-label" onclick="pick(this,58,'d')"><input type="radio" name="q58"><div class="option-dot"></div><span class="option-letter">D</span> It helps us to avoid rhetorical questions.</label>
+  </div><div class="feedback-msg" id="fb58"></div>
+</div>
+
+<div class="q-card" id="qc59" data-topic="parts-of-speech sentence-structure">
+  <div class="q-header"><div class="q-num">59</div><div class="q-text">Identify the function of the capitalized phrase: <em>He gave <strong>THE MAN WHO CAME HERE HOLDING A BROWN BAG</strong> a pen.</em><span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,59,'a')"><input type="radio" name="q59"><div class="option-dot"></div><span class="option-letter">A</span> Indirect object</label>
+    <label class="option-label" onclick="pick(this,59,'b')"><input type="radio" name="q59"><div class="option-dot"></div><span class="option-letter">B</span> Complement</label>
+    <label class="option-label" onclick="pick(this,59,'c')"><input type="radio" name="q59"><div class="option-dot"></div><span class="option-letter">C</span> Direct object</label>
+    <label class="option-label" onclick="pick(this,59,'d')"><input type="radio" name="q59"><div class="option-dot"></div><span class="option-letter">D</span> Adjunct</label>
+  </div><div class="feedback-msg" id="fb59"></div>
+</div>
+
+<div class="q-card" id="qc60" data-topic="punctuation sentence-structure">
+  <div class="q-header"><div class="q-num">60</div><div class="q-text">Choose from A–D the one that has no errors (sentence fragments, comma splice, run-on sentences and faulty parallelism).<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,60,'a')"><input type="radio" name="q60"><div class="option-dot"></div><span class="option-letter">A</span> The crooks copied the department's essential records which contain sensitive details on students.</label>
+    <label class="option-label" onclick="pick(this,60,'b')"><input type="radio" name="q60"><div class="option-dot"></div><span class="option-letter">B</span> The crooks copied the department's essential records, this contain sensitive details on students.</label>
+    <label class="option-label" onclick="pick(this,60,'c')"><input type="radio" name="q60"><div class="option-dot"></div><span class="option-letter">C</span> The crooks copied the department's essential records, they contain sensitive details on students.</label>
+    <label class="option-label" onclick="pick(this,60,'d')"><input type="radio" name="q60"><div class="option-dot"></div><span class="option-letter">D</span> The crooks copied the department's essential records, these contain sensitive details on students.</label>
+  </div><div class="feedback-msg" id="fb60"></div>
+</div>
+
+<div class="q-card" id="qc61" data-topic="punctuation sentence-structure">
+  <div class="q-header"><div class="q-num">61</div><div class="q-text">Choose from A–D the one that has no errors (sentence fragments, comma splice, run-on sentences and faulty parallelism).<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,61,'a')"><input type="radio" name="q61"><div class="option-dot"></div><span class="option-letter">A</span> The unavailability of and lodging in the desert and makes it extremely difficult to stay alive.</label>
+    <label class="option-label" onclick="pick(this,61,'b')"><input type="radio" name="q61"><div class="option-dot"></div><span class="option-letter">B</span> The unavailability of water and lodging in the desert which makes it extremely difficult to stay alive.</label>
+    <label class="option-label" onclick="pick(this,61,'c')"><input type="radio" name="q61"><div class="option-dot"></div><span class="option-letter">C</span> The unavailability of water and lodging in the desert makes it extremely difficult to stay alive.</label>
+    <label class="option-label" onclick="pick(this,61,'d')"><input type="radio" name="q61"><div class="option-dot"></div><span class="option-letter">D</span> The availability of water and lodging in the desert that makes it extremely difficult to stay alive.</label>
+  </div><div class="feedback-msg" id="fb61"></div>
+</div>
+
+<div class="q-card" id="qc62" data-topic="summary">
+  <div class="q-header"><div class="q-num">62</div><div class="q-text">In summarizing, one must be concise. This takes into consideration all of the following EXCEPT…<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,62,'a')"><input type="radio" name="q62"><div class="option-dot"></div><span class="option-letter">A</span> Presenting the absoluteness of the original story or document.</label>
+    <label class="option-label" onclick="pick(this,62,'b')"><input type="radio" name="q62"><div class="option-dot"></div><span class="option-letter">B</span> Being brief.</label>
+    <label class="option-label" onclick="pick(this,62,'c')"><input type="radio" name="q62"><div class="option-dot"></div><span class="option-letter">C</span> Presenting the key ideas.</label>
+    <label class="option-label" onclick="pick(this,62,'d')"><input type="radio" name="q62"><div class="option-dot"></div><span class="option-letter">D</span> Writing in your own words.</label>
+  </div><div class="feedback-msg" id="fb62"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION E</span><span class="section-title">Sentence Arrangement &amp; Paragraph Structure</span></div>
+
+<div class="passage-box" style="margin-bottom:16px;" data-topic="passage paragraphing">
+  <strong style="color:var(--blue); display:block; margin-bottom:6px;">📖 Read the passage and answer Question 63 (Dogs &amp; Cats)</strong>
+  <p><sup>1</sup>Dogs may enjoy prolonged petting, but cats on the other hand, may tire of too much attention. <sup>2</sup>However, my Persian cat has a small window of enjoying petting before biting my hand and running away. <sup>3</sup>For example, German Shepard can lay on my lap for hours with me rubbing her head. <sup>4</sup>As you can see through my examples, most dogs enjoy prolonged affection more than cats. <sup>5</sup>When it comes to petting, dogs and cats react in different ways. <sup>6</sup>This works to demonstrate the more social and people pleasing nature of dogs.</p>
+</div>
+
+<div class="q-card" id="qc63" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">63</div><div class="q-text"><span class="passage-ref">📖 Passage (Dogs &amp; Cats)</span>Choose the arrangement that makes the sentences a coherent paragraph.<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,63,'a')"><input type="radio" name="q63"><div class="option-dot"></div><span class="option-letter">A</span> 2, 3, 6, 5 &amp; 4</label>
+    <label class="option-label" onclick="pick(this,63,'b')"><input type="radio" name="q63"><div class="option-dot"></div><span class="option-letter">B</span> 1, 2, 3, 4, 5 &amp; 6</label>
+    <label class="option-label" onclick="pick(this,63,'c')"><input type="radio" name="q63"><div class="option-dot"></div><span class="option-letter">C</span> 6, 2, 5, 3, 4 &amp; 1</label>
+    <label class="option-label" onclick="pick(this,63,'d')"><input type="radio" name="q63"><div class="option-dot"></div><span class="option-letter">D</span> 5, 1, 3, 2, 4 &amp; 6</label>
+  </div><div class="feedback-msg" id="fb63"></div>
+</div>
+
+<div class="passage-box" style="margin-bottom:16px; margin-top:24px;" data-topic="passage paragraphing">
+  <strong style="color:var(--blue); display:block; margin-bottom:6px;">📖 Read the passage and answer Questions 64–70 (Troublemakers)</strong>
+  <p><sup>1</sup>[Topic sentence] <sup>2</sup>…are people who mastermind all the chaos and atrocities in this world. <sup>3</sup>Talk of the two world wars and you will have them around their remote and the immediate causes. <sup>4</sup>All the things in this world which are anti-human are the works of their hands, heads and hearts. <sup>5</sup>Examples of these ungodly activities include human trafficking, child abuse, same-sex marriages, cyber-crimes, armed robbery and the likes. <sup>6</sup>It is surprising that even though these people are God's creations, they rather do not have the loving spirit of God in them. <sup>7</sup>But thank God for the existence of the other category of people who aim at transforming what the troublemakers have deformed. <sup>8</sup>For instance, when the troublemakers created a virus, they manufactured anti-virus. <sup>9</sup>They help create home for refugees who, due to the nefarious activities of the troublemakers, are made homeless. <sup>10</sup>Without trouble-shooters, there will be no 'heavens' for those who have been made victims in the 'hells' created by the troublemakers. <sup>11</sup>Really, they make bitter life better to people. <sup>12</sup>Indeed, it is always good to have an eraser wherever there are pencils.</p>
+</div>
+
+<div class="q-card" id="qc64" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">64</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>Which sentence contains the controlling idea of the paragraph?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,64,'a')"><input type="radio" name="q64"><div class="option-dot"></div><span class="option-letter">A</span> Sentence 1</label>
+    <label class="option-label" onclick="pick(this,64,'b')"><input type="radio" name="q64"><div class="option-dot"></div><span class="option-letter">B</span> Sentence 2</label>
+    <label class="option-label" onclick="pick(this,64,'c')"><input type="radio" name="q64"><div class="option-dot"></div><span class="option-letter">C</span> Sentence 3</label>
+    <label class="option-label" onclick="pick(this,64,'d')"><input type="radio" name="q64"><div class="option-dot"></div><span class="option-letter">D</span> Sentence 12</label>
+  </div><div class="feedback-msg" id="fb64"></div>
+</div>
+
+<div class="q-card" id="qc65" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">65</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>All the following sentences are major supporting sentences EXCEPT…<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,65,'a')"><input type="radio" name="q65"><div class="option-dot"></div><span class="option-letter">A</span> Conclusion Sentence (Sentence 12)</label>
+    <label class="option-label" onclick="pick(this,65,'b')"><input type="radio" name="q65"><div class="option-dot"></div><span class="option-letter">B</span> Sentences 3, 5</label>
+    <label class="option-label" onclick="pick(this,65,'c')"><input type="radio" name="q65"><div class="option-dot"></div><span class="option-letter">C</span> Sentence 7</label>
+    <label class="option-label" onclick="pick(this,65,'d')"><input type="radio" name="q65"><div class="option-dot"></div><span class="option-letter">D</span> Sentence 9</label>
+  </div><div class="feedback-msg" id="fb65"></div>
+</div>
+
+<div class="q-card" id="qc66" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">66</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>The set of sentences below are minor supporting sentences EXCEPT…<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,66,'a')"><input type="radio" name="q66"><div class="option-dot"></div><span class="option-letter">A</span> Sentences 2, 7</label>
+    <label class="option-label" onclick="pick(this,66,'b')"><input type="radio" name="q66"><div class="option-dot"></div><span class="option-letter">B</span> None of the options</label>
+    <label class="option-label" onclick="pick(this,66,'c')"><input type="radio" name="q66"><div class="option-dot"></div><span class="option-letter">C</span> Sentences 3, 5</label>
+    <label class="option-label" onclick="pick(this,66,'d')"><input type="radio" name="q66"><div class="option-dot"></div><span class="option-letter">D</span> Sentence 11</label>
+  </div><div class="feedback-msg" id="fb66"></div>
+</div>
+
+<div class="q-card" id="qc67" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">67</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>What do sentences 4 and 8 have in common?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,67,'a')"><input type="radio" name="q67"><div class="option-dot"></div><span class="option-letter">A</span> They both directly support the topic sentence but indirectly support a major supporting sentence.</label>
+    <label class="option-label" onclick="pick(this,67,'b')"><input type="radio" name="q67"><div class="option-dot"></div><span class="option-letter">B</span> They both indirectly support the topic sentence but directly support major supporting sentences.</label>
+    <label class="option-label" onclick="pick(this,67,'c')"><input type="radio" name="q67"><div class="option-dot"></div><span class="option-letter">C</span> They both directly support the topic sentence.</label>
+    <label class="option-label" onclick="pick(this,67,'d')"><input type="radio" name="q67"><div class="option-dot"></div><span class="option-letter">D</span> They are both conclusion sentences.</label>
+  </div><div class="feedback-msg" id="fb67"></div>
+</div>
+
+<div class="q-card" id="qc68" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">68</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>How many major supporting sentences does the paragraph contain?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,68,'a')"><input type="radio" name="q68"><div class="option-dot"></div><span class="option-letter">A</span> Four</label>
+    <label class="option-label" onclick="pick(this,68,'b')"><input type="radio" name="q68"><div class="option-dot"></div><span class="option-letter">B</span> Three</label>
+    <label class="option-label" onclick="pick(this,68,'c')"><input type="radio" name="q68"><div class="option-dot"></div><span class="option-letter">C</span> Two</label>
+    <label class="option-label" onclick="pick(this,68,'d')"><input type="radio" name="q68"><div class="option-dot"></div><span class="option-letter">D</span> Five</label>
+  </div><div class="feedback-msg" id="fb68"></div>
+</div>
+
+<div class="q-card" id="qc69" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">69</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>What description can be given to the position of the main idea of the paragraph?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,69,'a')"><input type="radio" name="q69"><div class="option-dot"></div><span class="option-letter">A</span> It is placed at the medial stage.</label>
+    <label class="option-label" onclick="pick(this,69,'b')"><input type="radio" name="q69"><div class="option-dot"></div><span class="option-letter">B</span> It is implied.</label>
+    <label class="option-label" onclick="pick(this,69,'c')"><input type="radio" name="q69"><div class="option-dot"></div><span class="option-letter">C</span> It is at the beginning.</label>
+    <label class="option-label" onclick="pick(this,69,'d')"><input type="radio" name="q69"><div class="option-dot"></div><span class="option-letter">D</span> It is at the end.</label>
+  </div><div class="feedback-msg" id="fb69"></div>
+</div>
+
+<div class="q-card" id="qc70" data-topic="paragraphing passage">
+  <div class="q-header"><div class="q-num">70</div><div class="q-text"><span class="passage-ref">📖 Passage (Troublemakers)</span>Which type of sentence is Sentence 12 in the paragraph?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,70,'a')"><input type="radio" name="q70"><div class="option-dot"></div><span class="option-letter">A</span> Topic Sentence</label>
+    <label class="option-label" onclick="pick(this,70,'b')"><input type="radio" name="q70"><div class="option-dot"></div><span class="option-letter">B</span> Major Supporting Sentence</label>
+    <label class="option-label" onclick="pick(this,70,'c')"><input type="radio" name="q70"><div class="option-dot"></div><span class="option-letter">C</span> Conclusion Sentence</label>
+    <label class="option-label" onclick="pick(this,70,'d')"><input type="radio" name="q70"><div class="option-dot"></div><span class="option-letter">D</span> Minor Supporting Sentence</label>
+  </div><div class="feedback-msg" id="fb70"></div>
+</div>
+
+<!-- ============================
+     NEW QUESTIONS Q71–Q130
+     ============================ -->
+
+<div class="section-header"><span class="section-tag">SECTION F</span><span class="section-title">Sentence Types: Simple, Compound, Complex &amp; Compound-Complex</span></div>
+
+<div class="q-card" id="qc71" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">71</div><div class="q-text">Identify the type of sentence: <em>"Kofi reads every day."</em><span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,71,'a')"><input type="radio" name="q71"><div class="option-dot"></div><span class="option-letter">A</span> Simple</label>
+    <label class="option-label" onclick="pick(this,71,'b')"><input type="radio" name="q71"><div class="option-dot"></div><span class="option-letter">B</span> Compound</label>
+    <label class="option-label" onclick="pick(this,71,'c')"><input type="radio" name="q71"><div class="option-dot"></div><span class="option-letter">C</span> Complex</label>
+    <label class="option-label" onclick="pick(this,71,'d')"><input type="radio" name="q71"><div class="option-dot"></div><span class="option-letter">D</span> Compound-Complex</label>
+  </div><div class="feedback-msg" id="fb71"></div>
+</div>
+
+<div class="q-card" id="qc72" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">72</div><div class="q-text">Identify the type of sentence: <em>"Ama went to the market, and Kweku stayed home."</em><span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,72,'a')"><input type="radio" name="q72"><div class="option-dot"></div><span class="option-letter">A</span> Simple</label>
+    <label class="option-label" onclick="pick(this,72,'b')"><input type="radio" name="q72"><div class="option-dot"></div><span class="option-letter">B</span> Compound</label>
+    <label class="option-label" onclick="pick(this,72,'c')"><input type="radio" name="q72"><div class="option-dot"></div><span class="option-letter">C</span> Complex</label>
+    <label class="option-label" onclick="pick(this,72,'d')"><input type="radio" name="q72"><div class="option-dot"></div><span class="option-letter">D</span> Compound-Complex</label>
+  </div><div class="feedback-msg" id="fb72"></div>
+</div>
+
+<div class="q-card" id="qc73" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">73</div><div class="q-text">Identify the type of sentence: <em>"Although it was raining, the students attended the lecture."</em><span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,73,'a')"><input type="radio" name="q73"><div class="option-dot"></div><span class="option-letter">A</span> Simple</label>
+    <label class="option-label" onclick="pick(this,73,'b')"><input type="radio" name="q73"><div class="option-dot"></div><span class="option-letter">B</span> Compound</label>
+    <label class="option-label" onclick="pick(this,73,'c')"><input type="radio" name="q73"><div class="option-dot"></div><span class="option-letter">C</span> Complex</label>
+    <label class="option-label" onclick="pick(this,73,'d')"><input type="radio" name="q73"><div class="option-dot"></div><span class="option-letter">D</span> Compound-Complex</label>
+  </div><div class="feedback-msg" id="fb73"></div>
+</div>
+
+<div class="q-card" id="qc74" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">74</div><div class="q-text">Identify the type of sentence: <em>"Because she studied hard, Akosua passed her exams, and her parents were proud."</em><span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,74,'a')"><input type="radio" name="q74"><div class="option-dot"></div><span class="option-letter">A</span> Simple</label>
+    <label class="option-label" onclick="pick(this,74,'b')"><input type="radio" name="q74"><div class="option-dot"></div><span class="option-letter">B</span> Compound</label>
+    <label class="option-label" onclick="pick(this,74,'c')"><input type="radio" name="q74"><div class="option-dot"></div><span class="option-letter">C</span> Complex</label>
+    <label class="option-label" onclick="pick(this,74,'d')"><input type="radio" name="q74"><div class="option-dot"></div><span class="option-letter">D</span> Compound-Complex</label>
+  </div><div class="feedback-msg" id="fb74"></div>
+</div>
+
+<div class="q-card" id="qc75" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">75</div><div class="q-text">Which of the following is a COMPLEX sentence?<span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,75,'a')"><input type="radio" name="q75"><div class="option-dot"></div><span class="option-letter">A</span> The boy ran fast.</label>
+    <label class="option-label" onclick="pick(this,75,'b')"><input type="radio" name="q75"><div class="option-dot"></div><span class="option-letter">B</span> The boy ran fast and he won the race.</label>
+    <label class="option-label" onclick="pick(this,75,'c')"><input type="radio" name="q75"><div class="option-dot"></div><span class="option-letter">C</span> The boy who trained every morning won the race.</label>
+    <label class="option-label" onclick="pick(this,75,'d')"><input type="radio" name="q75"><div class="option-dot"></div><span class="option-letter">D</span> The boy ran, he won, and the crowd cheered.</label>
+  </div><div class="feedback-msg" id="fb75"></div>
+</div>
+
+<div class="q-card" id="qc76" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">76</div><div class="q-text">Identify the type of sentence: <em>"The professor lectured for two hours, but the students remained attentive because the topic was fascinating."</em><span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,76,'a')"><input type="radio" name="q76"><div class="option-dot"></div><span class="option-letter">A</span> Simple</label>
+    <label class="option-label" onclick="pick(this,76,'b')"><input type="radio" name="q76"><div class="option-dot"></div><span class="option-letter">B</span> Compound</label>
+    <label class="option-label" onclick="pick(this,76,'c')"><input type="radio" name="q76"><div class="option-dot"></div><span class="option-letter">C</span> Complex</label>
+    <label class="option-label" onclick="pick(this,76,'d')"><input type="radio" name="q76"><div class="option-dot"></div><span class="option-letter">D</span> Compound-Complex</label>
+  </div><div class="feedback-msg" id="fb76"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION G</span><span class="section-title">Sentence Structure Patterns (SVO, SVA, SVOC, etc.)</span></div>
+
+<div class="q-card" id="qc77" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">77</div><div class="q-text">What is the sentence pattern of: <em>"Kodi is a boy."</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,77,'a')"><input type="radio" name="q77"><div class="option-dot"></div><span class="option-letter">A</span> SVO</label>
+    <label class="option-label" onclick="pick(this,77,'b')"><input type="radio" name="q77"><div class="option-dot"></div><span class="option-letter">B</span> SVC</label>
+    <label class="option-label" onclick="pick(this,77,'c')"><input type="radio" name="q77"><div class="option-dot"></div><span class="option-letter">C</span> SVA</label>
+    <label class="option-label" onclick="pick(this,77,'d')"><input type="radio" name="q77"><div class="option-dot"></div><span class="option-letter">D</span> SVOO</label>
+  </div><div class="feedback-msg" id="fb77"></div>
+</div>
+
+<div class="q-card" id="qc78" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">78</div><div class="q-text">What is the sentence pattern of: <em>"The lecturer gave the students a handout."</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,78,'a')"><input type="radio" name="q78"><div class="option-dot"></div><span class="option-letter">A</span> SVO</label>
+    <label class="option-label" onclick="pick(this,78,'b')"><input type="radio" name="q78"><div class="option-dot"></div><span class="option-letter">B</span> SVC</label>
+    <label class="option-label" onclick="pick(this,78,'c')"><input type="radio" name="q78"><div class="option-dot"></div><span class="option-letter">C</span> SVOO</label>
+    <label class="option-label" onclick="pick(this,78,'d')"><input type="radio" name="q78"><div class="option-dot"></div><span class="option-letter">D</span> SVOC</label>
+  </div><div class="feedback-msg" id="fb78"></div>
+</div>
+
+<div class="q-card" id="qc79" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">79</div><div class="q-text">What is the sentence pattern of: <em>"The students elected Abena president."</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,79,'a')"><input type="radio" name="q79"><div class="option-dot"></div><span class="option-letter">A</span> SVOO</label>
+    <label class="option-label" onclick="pick(this,79,'b')"><input type="radio" name="q79"><div class="option-dot"></div><span class="option-letter">B</span> SVOC</label>
+    <label class="option-label" onclick="pick(this,79,'c')"><input type="radio" name="q79"><div class="option-dot"></div><span class="option-letter">C</span> SVC</label>
+    <label class="option-label" onclick="pick(this,79,'d')"><input type="radio" name="q79"><div class="option-dot"></div><span class="option-letter">D</span> SVO</label>
+  </div><div class="feedback-msg" id="fb79"></div>
+</div>
+
+<div class="q-card" id="qc80" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">80</div><div class="q-text">What is the sentence pattern of: <em>"The dog sleeps on the mat."</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,80,'a')"><input type="radio" name="q80"><div class="option-dot"></div><span class="option-letter">A</span> SVO</label>
+    <label class="option-label" onclick="pick(this,80,'b')"><input type="radio" name="q80"><div class="option-dot"></div><span class="option-letter">B</span> SVC</label>
+    <label class="option-label" onclick="pick(this,80,'c')"><input type="radio" name="q80"><div class="option-dot"></div><span class="option-letter">C</span> SVA</label>
+    <label class="option-label" onclick="pick(this,80,'d')"><input type="radio" name="q80"><div class="option-dot"></div><span class="option-letter">D</span> SVOO</label>
+  </div><div class="feedback-msg" id="fb80"></div>
+</div>
+
+<div class="q-card" id="qc81" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">81</div><div class="q-text">What is the sentence pattern of: <em>"The dean handed the graduates their certificates."</em><span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,81,'a')"><input type="radio" name="q81"><div class="option-dot"></div><span class="option-letter">A</span> SVC</label>
+    <label class="option-label" onclick="pick(this,81,'b')"><input type="radio" name="q81"><div class="option-dot"></div><span class="option-letter">B</span> SVO</label>
+    <label class="option-label" onclick="pick(this,81,'c')"><input type="radio" name="q81"><div class="option-dot"></div><span class="option-letter">C</span> SVOC</label>
+    <label class="option-label" onclick="pick(this,81,'d')"><input type="radio" name="q81"><div class="option-dot"></div><span class="option-letter">D</span> SVOO</label>
+  </div><div class="feedback-msg" id="fb81"></div>
+</div>
+
+<div class="q-card" id="qc82" data-topic="sentence-structure">
+  <div class="q-header"><div class="q-num">82</div><div class="q-text">Which sentence below has an <strong>SVO</strong> pattern?<span class="q-badge">Sentence Structure</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,82,'a')"><input type="radio" name="q82"><div class="option-dot"></div><span class="option-letter">A</span> The children seem happy.</label>
+    <label class="option-label" onclick="pick(this,82,'b')"><input type="radio" name="q82"><div class="option-dot"></div><span class="option-letter">B</span> The manager is in his office.</label>
+    <label class="option-label" onclick="pick(this,82,'c')"><input type="radio" name="q82"><div class="option-dot"></div><span class="option-letter">C</span> The journalist wrote a compelling article.</label>
+    <label class="option-label" onclick="pick(this,82,'d')"><input type="radio" name="q82"><div class="option-dot"></div><span class="option-letter">D</span> They made her captain.</label>
+  </div><div class="feedback-msg" id="fb82"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION H</span><span class="section-title">Parallelism</span></div>
+
+<div class="q-card" id="qc83" data-topic="parallelism">
+  <div class="q-header"><div class="q-num">83</div><div class="q-text">Which sentence demonstrates correct parallel structure?<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,83,'a')"><input type="radio" name="q83"><div class="option-dot"></div><span class="option-letter">A</span> She likes swimming, to jog, and cycling.</label>
+    <label class="option-label" onclick="pick(this,83,'b')"><input type="radio" name="q83"><div class="option-dot"></div><span class="option-letter">B</span> She likes swimming, jogging, and cycling.</label>
+    <label class="option-label" onclick="pick(this,83,'c')"><input type="radio" name="q83"><div class="option-dot"></div><span class="option-letter">C</span> She likes to swim, jogging, and to cycle.</label>
+    <label class="option-label" onclick="pick(this,83,'d')"><input type="radio" name="q83"><div class="option-dot"></div><span class="option-letter">D</span> She likes to swim, jog, and cycling.</label>
+  </div><div class="feedback-msg" id="fb83"></div>
+</div>
+
+<div class="q-card" id="qc84" data-topic="parallelism">
+  <div class="q-header"><div class="q-num">84</div><div class="q-text">Which sentence has FAULTY parallelism?<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,84,'a')"><input type="radio" name="q84"><div class="option-dot"></div><span class="option-letter">A</span> The dean commended the students for their discipline, their hard work, and their teamwork.</label>
+    <label class="option-label" onclick="pick(this,84,'b')"><input type="radio" name="q84"><div class="option-dot"></div><span class="option-letter">B</span> The new policy aims to reduce costs, improving efficiency, and to boost morale.</label>
+    <label class="option-label" onclick="pick(this,84,'c')"><input type="radio" name="q84"><div class="option-dot"></div><span class="option-letter">C</span> To succeed in this programme, students must read widely, write clearly, and think critically.</label>
+    <label class="option-label" onclick="pick(this,84,'d')"><input type="radio" name="q84"><div class="option-dot"></div><span class="option-letter">D</span> The committee met, deliberated, and reached a unanimous decision.</label>
+  </div><div class="feedback-msg" id="fb84"></div>
+</div>
+
+<div class="q-card" id="qc85" data-topic="parallelism">
+  <div class="q-header"><div class="q-num">85</div><div class="q-text">Which sentence is correctly constructed in terms of parallel structure?<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,85,'a')"><input type="radio" name="q85"><div class="option-dot"></div><span class="option-letter">A</span> The report was thorough, accurate, and it was submitted on time.</label>
+    <label class="option-label" onclick="pick(this,85,'b')"><input type="radio" name="q85"><div class="option-dot"></div><span class="option-letter">B</span> The report was thorough, accurate, and timely.</label>
+    <label class="option-label" onclick="pick(this,85,'c')"><input type="radio" name="q85"><div class="option-dot"></div><span class="option-letter">C</span> The report was thorough, being accurate, and was timely submitted.</label>
+    <label class="option-label" onclick="pick(this,85,'d')"><input type="radio" name="q85"><div class="option-dot"></div><span class="option-letter">D</span> The report was thorough, accuracy was noted, and timely.</label>
+  </div><div class="feedback-msg" id="fb85"></div>
+</div>
+
+<div class="q-card" id="qc86" data-topic="parallelism">
+  <div class="q-header"><div class="q-num">86</div><div class="q-text">Identify the sentence WITHOUT faulty parallelism.<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,86,'a')"><input type="radio" name="q86"><div class="option-dot"></div><span class="option-letter">A</span> He was asked to attend the seminar, present a paper, and to submit a report.</label>
+    <label class="option-label" onclick="pick(this,86,'b')"><input type="radio" name="q86"><div class="option-dot"></div><span class="option-letter">B</span> He was asked to attend the seminar, presenting a paper, and to submit a report.</label>
+    <label class="option-label" onclick="pick(this,86,'c')"><input type="radio" name="q86"><div class="option-dot"></div><span class="option-letter">C</span> He was asked to attend the seminar, to present a paper, and to submit a report.</label>
+    <label class="option-label" onclick="pick(this,86,'d')"><input type="radio" name="q86"><div class="option-dot"></div><span class="option-letter">D</span> He was asked to attend the seminar, to present a paper, and submitting a report.</label>
+  </div><div class="feedback-msg" id="fb86"></div>
+</div>
+
+<div class="q-card" id="qc87" data-topic="parallelism">
+  <div class="q-header"><div class="q-num">87</div><div class="q-text">Which sentence correctly maintains parallel structure in a correlative conjunction?<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,87,'a')"><input type="radio" name="q87"><div class="option-dot"></div><span class="option-letter">A</span> Either you study hard or failing the exam is what will happen.</label>
+    <label class="option-label" onclick="pick(this,87,'b')"><input type="radio" name="q87"><div class="option-dot"></div><span class="option-letter">B</span> Either you study hard or you fail the exam.</label>
+    <label class="option-label" onclick="pick(this,87,'c')"><input type="radio" name="q87"><div class="option-dot"></div><span class="option-letter">C</span> Either studying hard or to fail is your option.</label>
+    <label class="option-label" onclick="pick(this,87,'d')"><input type="radio" name="q87"><div class="option-dot"></div><span class="option-letter">D</span> Either you study or failing will be the result.</label>
+  </div><div class="feedback-msg" id="fb87"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION I</span><span class="section-title">Conjunctions</span></div>
+
+<div class="q-card" id="qc88" data-topic="conjunctions">
+  <div class="q-header"><div class="q-num">88</div><div class="q-text">Which of the following words is a SUBORDINATING conjunction?<span class="q-badge">Conjunctions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,88,'a')"><input type="radio" name="q88"><div class="option-dot"></div><span class="option-letter">A</span> And</label>
+    <label class="option-label" onclick="pick(this,88,'b')"><input type="radio" name="q88"><div class="option-dot"></div><span class="option-letter">B</span> But</label>
+    <label class="option-label" onclick="pick(this,88,'c')"><input type="radio" name="q88"><div class="option-dot"></div><span class="option-letter">C</span> Although</label>
+    <label class="option-label" onclick="pick(this,88,'d')"><input type="radio" name="q88"><div class="option-dot"></div><span class="option-letter">D</span> Or</label>
+  </div><div class="feedback-msg" id="fb88"></div>
+</div>
+
+<div class="q-card" id="qc89" data-topic="conjunctions">
+  <div class="q-header"><div class="q-num">89</div><div class="q-text">Select the sentence that uses a COORDINATING conjunction correctly.<span class="q-badge">Conjunctions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,89,'a')"><input type="radio" name="q89"><div class="option-dot"></div><span class="option-letter">A</span> Although he was tired, but he kept working.</label>
+    <label class="option-label" onclick="pick(this,89,'b')"><input type="radio" name="q89"><div class="option-dot"></div><span class="option-letter">B</span> He was tired, but he kept working.</label>
+    <label class="option-label" onclick="pick(this,89,'c')"><input type="radio" name="q89"><div class="option-dot"></div><span class="option-letter">C</span> He was tired because he kept working.</label>
+    <label class="option-label" onclick="pick(this,89,'d')"><input type="radio" name="q89"><div class="option-dot"></div><span class="option-letter">D</span> He was tired, since he kept working.</label>
+  </div><div class="feedback-msg" id="fb89"></div>
+</div>
+
+<div class="q-card" id="qc90" data-topic="conjunctions">
+  <div class="q-header"><div class="q-num">90</div><div class="q-text">Which pair of words are CORRELATIVE conjunctions?<span class="q-badge">Conjunctions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,90,'a')"><input type="radio" name="q90"><div class="option-dot"></div><span class="option-letter">A</span> However / therefore</label>
+    <label class="option-label" onclick="pick(this,90,'b')"><input type="radio" name="q90"><div class="option-dot"></div><span class="option-letter">B</span> Both / and</label>
+    <label class="option-label" onclick="pick(this,90,'c')"><input type="radio" name="q90"><div class="option-dot"></div><span class="option-letter">C</span> Because / since</label>
+    <label class="option-label" onclick="pick(this,90,'d')"><input type="radio" name="q90"><div class="option-dot"></div><span class="option-letter">D</span> Although / while</label>
+  </div><div class="feedback-msg" id="fb90"></div>
+</div>
+
+<div class="q-card" id="qc91" data-topic="conjunctions">
+  <div class="q-header"><div class="q-num">91</div><div class="q-text">Which sentence uses a conjunction INCORRECTLY?<span class="q-badge">Conjunctions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,91,'a')"><input type="radio" name="q91"><div class="option-dot"></div><span class="option-letter">A</span> She studied because she wanted to pass.</label>
+    <label class="option-label" onclick="pick(this,91,'b')"><input type="radio" name="q91"><div class="option-dot"></div><span class="option-letter">B</span> He is tall and his brother is short.</label>
+    <label class="option-label" onclick="pick(this,91,'c')"><input type="radio" name="q91"><div class="option-dot"></div><span class="option-letter">C</span> Although the food was cold, but she ate it anyway.</label>
+    <label class="option-label" onclick="pick(this,91,'d')"><input type="radio" name="q91"><div class="option-dot"></div><span class="option-letter">D</span> Neither Kweku nor Abena attended the meeting.</label>
+  </div><div class="feedback-msg" id="fb91"></div>
+</div>
+
+<div class="q-card" id="qc92" data-topic="conjunctions">
+  <div class="q-header"><div class="q-num">92</div><div class="q-text">Identify the type of conjunction in: <em>"He failed the test; nevertheless, he did not give up."</em><span class="q-badge">Conjunctions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,92,'a')"><input type="radio" name="q92"><div class="option-dot"></div><span class="option-letter">A</span> Subordinating conjunction</label>
+    <label class="option-label" onclick="pick(this,92,'b')"><input type="radio" name="q92"><div class="option-dot"></div><span class="option-letter">B</span> Coordinating conjunction</label>
+    <label class="option-label" onclick="pick(this,92,'c')"><input type="radio" name="q92"><div class="option-dot"></div><span class="option-letter">C</span> Conjunctive adverb</label>
+    <label class="option-label" onclick="pick(this,92,'d')"><input type="radio" name="q92"><div class="option-dot"></div><span class="option-letter">D</span> Correlative conjunction</label>
+  </div><div class="feedback-msg" id="fb92"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION J</span><span class="section-title">Parts of Speech &amp; Word Functions</span></div>
+
+<div class="q-card" id="qc93" data-topic="parts-of-speech">
+  <div class="q-header"><div class="q-num">93</div><div class="q-text">In the sentence: <em>"The <span class="underline">extremely</span> talented student won the award,"</em> the underlined word functions as…<span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,93,'a')"><input type="radio" name="q93"><div class="option-dot"></div><span class="option-letter">A</span> Adjective</label>
+    <label class="option-label" onclick="pick(this,93,'b')"><input type="radio" name="q93"><div class="option-dot"></div><span class="option-letter">B</span> Adverb</label>
+    <label class="option-label" onclick="pick(this,93,'c')"><input type="radio" name="q93"><div class="option-dot"></div><span class="option-letter">C</span> Noun</label>
+    <label class="option-label" onclick="pick(this,93,'d')"><input type="radio" name="q93"><div class="option-dot"></div><span class="option-letter">D</span> Verb</label>
+  </div><div class="feedback-msg" id="fb93"></div>
+</div>
+
+<div class="q-card" id="qc94" data-topic="parts-of-speech">
+  <div class="q-header"><div class="q-num">94</div><div class="q-text">In the sentence: <em>"She sings <span class="underline">beautifully</span>,"</em> the underlined word is a…<span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,94,'a')"><input type="radio" name="q94"><div class="option-dot"></div><span class="option-letter">A</span> Adjective</label>
+    <label class="option-label" onclick="pick(this,94,'b')"><input type="radio" name="q94"><div class="option-dot"></div><span class="option-letter">B</span> Adverb</label>
+    <label class="option-label" onclick="pick(this,94,'c')"><input type="radio" name="q94"><div class="option-dot"></div><span class="option-letter">C</span> Verb</label>
+    <label class="option-label" onclick="pick(this,94,'d')"><input type="radio" name="q94"><div class="option-dot"></div><span class="option-letter">D</span> Noun</label>
+  </div><div class="feedback-msg" id="fb94"></div>
+</div>
+
+<div class="q-card" id="qc95" data-topic="parts-of-speech">
+  <div class="q-header"><div class="q-num">95</div><div class="q-text">In the sentence: <em>"The <span class="underline">rapid</span> growth of technology has changed our lives,"</em> the underlined word is a…<span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,95,'a')"><input type="radio" name="q95"><div class="option-dot"></div><span class="option-letter">A</span> Noun</label>
+    <label class="option-label" onclick="pick(this,95,'b')"><input type="radio" name="q95"><div class="option-dot"></div><span class="option-letter">B</span> Verb</label>
+    <label class="option-label" onclick="pick(this,95,'c')"><input type="radio" name="q95"><div class="option-dot"></div><span class="option-letter">C</span> Adverb</label>
+    <label class="option-label" onclick="pick(this,95,'d')"><input type="radio" name="q95"><div class="option-dot"></div><span class="option-letter">D</span> Adjective</label>
+  </div><div class="feedback-msg" id="fb95"></div>
+</div>
+
+<div class="q-card" id="qc96" data-topic="parts-of-speech">
+  <div class="q-header"><div class="q-num">96</div><div class="q-text">In the sentence: <em>"<span class="underline">Running</span> every morning keeps one healthy,"</em> the underlined word functions as a…<span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,96,'a')"><input type="radio" name="q96"><div class="option-dot"></div><span class="option-letter">A</span> Gerund (noun)</label>
+    <label class="option-label" onclick="pick(this,96,'b')"><input type="radio" name="q96"><div class="option-dot"></div><span class="option-letter">B</span> Present participle (adjective)</label>
+    <label class="option-label" onclick="pick(this,96,'c')"><input type="radio" name="q96"><div class="option-dot"></div><span class="option-letter">C</span> Adverb</label>
+    <label class="option-label" onclick="pick(this,96,'d')"><input type="radio" name="q96"><div class="option-dot"></div><span class="option-letter">D</span> Verb</label>
+  </div><div class="feedback-msg" id="fb96"></div>
+</div>
+
+<div class="q-card" id="qc97" data-topic="parts-of-speech">
+  <div class="q-header"><div class="q-num">97</div><div class="q-text">In the sentence: <em>"The council made the decision <span class="underline">unanimously</span>,"</em> the underlined word modifies…<span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,97,'a')"><input type="radio" name="q97"><div class="option-dot"></div><span class="option-letter">A</span> The noun "council"</label>
+    <label class="option-label" onclick="pick(this,97,'b')"><input type="radio" name="q97"><div class="option-dot"></div><span class="option-letter">B</span> The noun "decision"</label>
+    <label class="option-label" onclick="pick(this,97,'c')"><input type="radio" name="q97"><div class="option-dot"></div><span class="option-letter">C</span> The verb "made"</label>
+    <label class="option-label" onclick="pick(this,97,'d')"><input type="radio" name="q97"><div class="option-dot"></div><span class="option-letter">D</span> The adjective "unanimous"</label>
+  </div><div class="feedback-msg" id="fb97"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION K</span><span class="section-title">Singular &amp; Plural Noun Forms</span></div>
+
+<div class="q-card" id="qc98" data-topic="nouns">
+  <div class="q-header"><div class="q-num">98</div><div class="q-text">What is the correct plural form of "criterion"?<span class="q-badge">Singular/Plural</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,98,'a')"><input type="radio" name="q98"><div class="option-dot"></div><span class="option-letter">A</span> Criterions</label>
+    <label class="option-label" onclick="pick(this,98,'b')"><input type="radio" name="q98"><div class="option-dot"></div><span class="option-letter">B</span> Criterias</label>
+    <label class="option-label" onclick="pick(this,98,'c')"><input type="radio" name="q98"><div class="option-dot"></div><span class="option-letter">C</span> Criteria</label>
+    <label class="option-label" onclick="pick(this,98,'d')"><input type="radio" name="q98"><div class="option-dot"></div><span class="option-letter">D</span> Criterium</label>
+  </div><div class="feedback-msg" id="fb98"></div>
+</div>
+
+<div class="q-card" id="qc99" data-topic="nouns">
+  <div class="q-header"><div class="q-num">99</div><div class="q-text">What is the correct plural form of "phenomenon"?<span class="q-badge">Singular/Plural</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,99,'a')"><input type="radio" name="q99"><div class="option-dot"></div><span class="option-letter">A</span> Phenomenons</label>
+    <label class="option-label" onclick="pick(this,99,'b')"><input type="radio" name="q99"><div class="option-dot"></div><span class="option-letter">B</span> Phenomena</label>
+    <label class="option-label" onclick="pick(this,99,'c')"><input type="radio" name="q99"><div class="option-dot"></div><span class="option-letter">C</span> Phenomenas</label>
+    <label class="option-label" onclick="pick(this,99,'d')"><input type="radio" name="q99"><div class="option-dot"></div><span class="option-letter">D</span> Phenomene</label>
+  </div><div class="feedback-msg" id="fb99"></div>
+</div>
+
+<div class="q-card" id="qc100" data-topic="nouns">
+  <div class="q-header"><div class="q-num">100</div><div class="q-text">Which sentence uses the correct form of the noun?<span class="q-badge">Singular/Plural</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,100,'a')"><input type="radio" name="q100"><div class="option-dot"></div><span class="option-letter">A</span> The data shows that enrolment has increased.</label>
+    <label class="option-label" onclick="pick(this,100,'b')"><input type="radio" name="q100"><div class="option-dot"></div><span class="option-letter">B</span> The data show that enrolment has increased.</label>
+    <label class="option-label" onclick="pick(this,100,'c')"><input type="radio" name="q100"><div class="option-dot"></div><span class="option-letter">C</span> The datas show that enrolment has increased.</label>
+    <label class="option-label" onclick="pick(this,100,'d')"><input type="radio" name="q100"><div class="option-dot"></div><span class="option-letter">D</span> The datum shows that enrolment have increased.</label>
+  </div><div class="feedback-msg" id="fb100"></div>
+</div>
+
+<div class="q-card" id="qc101" data-topic="nouns">
+  <div class="q-header"><div class="q-num">101</div><div class="q-text">What is the correct singular form of "alumni"?<span class="q-badge">Singular/Plural</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,101,'a')"><input type="radio" name="q101"><div class="option-dot"></div><span class="option-letter">A</span> Alumnus</label>
+    <label class="option-label" onclick="pick(this,101,'b')"><input type="radio" name="q101"><div class="option-dot"></div><span class="option-letter">B</span> Alumna</label>
+    <label class="option-label" onclick="pick(this,101,'c')"><input type="radio" name="q101"><div class="option-dot"></div><span class="option-letter">C</span> Alumni</label>
+    <label class="option-label" onclick="pick(this,101,'d')"><input type="radio" name="q101"><div class="option-dot"></div><span class="option-letter">D</span> Alumnae</label>
+  </div><div class="feedback-msg" id="fb101"></div>
+</div>
+
+<div class="q-card" id="qc102" data-topic="nouns">
+  <div class="q-header"><div class="q-num">102</div><div class="q-text">Which of the following nouns has an IRREGULAR plural form?<span class="q-badge">Singular/Plural</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,102,'a')"><input type="radio" name="q102"><div class="option-dot"></div><span class="option-letter">A</span> Cat → Cats</label>
+    <label class="option-label" onclick="pick(this,102,'b')"><input type="radio" name="q102"><div class="option-dot"></div><span class="option-letter">B</span> Box → Boxes</label>
+    <label class="option-label" onclick="pick(this,102,'c')"><input type="radio" name="q102"><div class="option-dot"></div><span class="option-letter">C</span> Child → Children</label>
+    <label class="option-label" onclick="pick(this,102,'d')"><input type="radio" name="q102"><div class="option-dot"></div><span class="option-letter">D</span> Book → Books</label>
+  </div><div class="feedback-msg" id="fb102"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION L</span><span class="section-title">Punctuation (Advanced)</span></div>
+
+<div class="q-card" id="qc103" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">103</div><div class="q-text">Which of the following contains a COMMA SPLICE?<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,103,'a')"><input type="radio" name="q103"><div class="option-dot"></div><span class="option-letter">A</span> She was late; the meeting had already started.</label>
+    <label class="option-label" onclick="pick(this,103,'b')"><input type="radio" name="q103"><div class="option-dot"></div><span class="option-letter">B</span> She was late, the meeting had already started.</label>
+    <label class="option-label" onclick="pick(this,103,'c')"><input type="radio" name="q103"><div class="option-dot"></div><span class="option-letter">C</span> She was late because the meeting had already started.</label>
+    <label class="option-label" onclick="pick(this,103,'d')"><input type="radio" name="q103"><div class="option-dot"></div><span class="option-letter">D</span> She was late, so the meeting had already started.</label>
+  </div><div class="feedback-msg" id="fb103"></div>
+</div>
+
+<div class="q-card" id="qc104" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">104</div><div class="q-text">How would you best CORRECT the comma splice in: <em>"The exam was difficult, many students failed."</em>?<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,104,'a')"><input type="radio" name="q104"><div class="option-dot"></div><span class="option-letter">A</span> The exam was difficult. Many students failed.</label>
+    <label class="option-label" onclick="pick(this,104,'b')"><input type="radio" name="q104"><div class="option-dot"></div><span class="option-letter">B</span> The exam was difficult, and many students failed.</label>
+    <label class="option-label" onclick="pick(this,104,'c')"><input type="radio" name="q104"><div class="option-dot"></div><span class="option-letter">C</span> The exam was difficult; many students failed.</label>
+    <label class="option-label" onclick="pick(this,104,'d')"><input type="radio" name="q104"><div class="option-dot"></div><span class="option-letter">D</span> All of the above are correct.</label>
+  </div><div class="feedback-msg" id="fb104"></div>
+</div>
+
+<div class="q-card" id="qc105" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">105</div><div class="q-text">Which sentence places quotation marks CORRECTLY?<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,105,'a')"><input type="radio" name="q105"><div class="option-dot"></div><span class="option-letter">A</span> The lecturer said "students must submit their assignments by Friday".</label>
+    <label class="option-label" onclick="pick(this,105,'b')"><input type="radio" name="q105"><div class="option-dot"></div><span class="option-letter">B</span> The lecturer said, "Students must submit their assignments by Friday."</label>
+    <label class="option-label" onclick="pick(this,105,'c')"><input type="radio" name="q105"><div class="option-dot"></div><span class="option-letter">C</span> The lecturer said, "students must submit their assignments by Friday".</label>
+    <label class="option-label" onclick="pick(this,105,'d')"><input type="radio" name="q105"><div class="option-dot"></div><span class="option-letter">D</span> The lecturer said: "students must submit their assignments by Friday."</label>
+  </div><div class="feedback-msg" id="fb105"></div>
+</div>
+
+<div class="q-card" id="qc106" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">106</div><div class="q-text">Identify the punctuation error in: <em>"My hobbies include; reading, cooking, and swimming."</em><span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,106,'a')"><input type="radio" name="q106"><div class="option-dot"></div><span class="option-letter">A</span> The comma after "reading" should be removed.</label>
+    <label class="option-label" onclick="pick(this,106,'b')"><input type="radio" name="q106"><div class="option-dot"></div><span class="option-letter">B</span> The semicolon after "include" should be a colon.</label>
+    <label class="option-label" onclick="pick(this,106,'c')"><input type="radio" name="q106"><div class="option-dot"></div><span class="option-letter">C</span> A comma should be added after "My hobbies."</label>
+    <label class="option-label" onclick="pick(this,106,'d')"><input type="radio" name="q106"><div class="option-dot"></div><span class="option-letter">D</span> "And" should be replaced with a comma.</label>
+  </div><div class="feedback-msg" id="fb106"></div>
+</div>
+
+<div class="q-card" id="qc107" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">107</div><div class="q-text">Which of the following is a RUN-ON sentence?<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,107,'a')"><input type="radio" name="q107"><div class="option-dot"></div><span class="option-letter">A</span> The student studied hard; she passed her exams.</label>
+    <label class="option-label" onclick="pick(this,107,'b')"><input type="radio" name="q107"><div class="option-dot"></div><span class="option-letter">B</span> The student studied hard and she passed her exams.</label>
+    <label class="option-label" onclick="pick(this,107,'c')"><input type="radio" name="q107"><div class="option-dot"></div><span class="option-letter">C</span> The student studied hard she passed her exams.</label>
+    <label class="option-label" onclick="pick(this,107,'d')"><input type="radio" name="q107"><div class="option-dot"></div><span class="option-letter">D</span> Although the student studied hard, she passed her exams.</label>
+  </div><div class="feedback-msg" id="fb107"></div>
+</div>
+
+<div class="q-card" id="qc108" data-topic="punctuation">
+  <div class="q-header"><div class="q-num">108</div><div class="q-text">Which sentence correctly uses an APOSTROPHE?<span class="q-badge">Punctuation</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,108,'a')"><input type="radio" name="q108"><div class="option-dot"></div><span class="option-letter">A</span> The student's textbooks were on the table.</label>
+    <label class="option-label" onclick="pick(this,108,'b')"><input type="radio" name="q108"><div class="option-dot"></div><span class="option-letter">B</span> The students textbooks were on the table.</label>
+    <label class="option-label" onclick="pick(this,108,'c')"><input type="radio" name="q108"><div class="option-dot"></div><span class="option-letter">C</span> The student's textbook's were on the table.</label>
+    <label class="option-label" onclick="pick(this,108,'d')"><input type="radio" name="q108"><div class="option-dot"></div><span class="option-letter">D</span> The students' textbook's were on the table.</label>
+  </div><div class="feedback-msg" id="fb108"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION M</span><span class="section-title">Ambiguity</span></div>
+
+<div class="q-card" id="qc109" data-topic="ambiguity">
+  <div class="q-header"><div class="q-num">109</div><div class="q-text">Which sentence is LEAST ambiguous?<span class="q-badge">Ambiguity</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,109,'a')"><input type="radio" name="q109"><div class="option-dot"></div><span class="option-letter">A</span> Visiting relatives can be boring.</label>
+    <label class="option-label" onclick="pick(this,109,'b')"><input type="radio" name="q109"><div class="option-dot"></div><span class="option-letter">B</span> Flying planes can be dangerous.</label>
+    <label class="option-label" onclick="pick(this,109,'c')"><input type="radio" name="q109"><div class="option-dot"></div><span class="option-letter">C</span> The professor corrected the student's paper quickly.</label>
+    <label class="option-label" onclick="pick(this,109,'d')"><input type="radio" name="q109"><div class="option-dot"></div><span class="option-letter">D</span> I saw the man with the telescope.</label>
+  </div><div class="feedback-msg" id="fb109"></div>
+</div>
+
+<div class="q-card" id="qc110" data-topic="ambiguity">
+  <div class="q-header"><div class="q-num">110</div><div class="q-text">Which sentence is MOST clear and unambiguous?<span class="q-badge">Ambiguity</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,110,'a')"><input type="radio" name="q110"><div class="option-dot"></div><span class="option-letter">A</span> The police shot the man with a gun.</label>
+    <label class="option-label" onclick="pick(this,110,'b')"><input type="radio" name="q110"><div class="option-dot"></div><span class="option-letter">B</span> She told her friend that she had failed.</label>
+    <label class="option-label" onclick="pick(this,110,'c')"><input type="radio" name="q110"><div class="option-dot"></div><span class="option-letter">C</span> The lecturer returned the student's essay with corrections written in red ink.</label>
+    <label class="option-label" onclick="pick(this,110,'d')"><input type="radio" name="q110"><div class="option-dot"></div><span class="option-letter">D</span> Old men and women gathered at the square.</label>
+  </div><div class="feedback-msg" id="fb110"></div>
+</div>
+
+<div class="q-card" id="qc111" data-topic="ambiguity">
+  <div class="q-header"><div class="q-num">111</div><div class="q-text">What type of ambiguity is present in: <em>"I ate the cookies on the sofa."</em>?<span class="q-badge">Ambiguity</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,111,'a')"><input type="radio" name="q111"><div class="option-dot"></div><span class="option-letter">A</span> Lexical ambiguity</label>
+    <label class="option-label" onclick="pick(this,111,'b')"><input type="radio" name="q111"><div class="option-dot"></div><span class="option-letter">B</span> Structural (syntactic) ambiguity</label>
+    <label class="option-label" onclick="pick(this,111,'c')"><input type="radio" name="q111"><div class="option-dot"></div><span class="option-letter">C</span> Referential ambiguity</label>
+    <label class="option-label" onclick="pick(this,111,'d')"><input type="radio" name="q111"><div class="option-dot"></div><span class="option-letter">D</span> No ambiguity</label>
+  </div><div class="feedback-msg" id="fb111"></div>
+</div>
+
+<div class="q-card" id="qc112" data-topic="ambiguity">
+  <div class="q-header"><div class="q-num">112</div><div class="q-text">Which sentence contains REFERENTIAL ambiguity?<span class="q-badge">Ambiguity</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,112,'a')"><input type="radio" name="q112"><div class="option-dot"></div><span class="option-letter">A</span> The bank was steep.</label>
+    <label class="option-label" onclick="pick(this,112,'b')"><input type="radio" name="q112"><div class="option-dot"></div><span class="option-letter">B</span> Kwame told Samuel that his car had broken down.</label>
+    <label class="option-label" onclick="pick(this,112,'c')"><input type="radio" name="q112"><div class="option-dot"></div><span class="option-letter">C</span> They saw the woman with the binoculars.</label>
+    <label class="option-label" onclick="pick(this,112,'d')"><input type="radio" name="q112"><div class="option-dot"></div><span class="option-letter">D</span> She cannot bear children.</label>
+  </div><div class="feedback-msg" id="fb112"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION N</span><span class="section-title">Essay Types, Paragraphing &amp; Summary</span></div>
+
+<div class="q-card" id="qc113" data-topic="essay-types">
+  <div class="q-header"><div class="q-num">113</div><div class="q-text">Which type of essay primarily appeals to the five senses?<span class="q-badge">Essay Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,113,'a')"><input type="radio" name="q113"><div class="option-dot"></div><span class="option-letter">A</span> Argumentative essay</label>
+    <label class="option-label" onclick="pick(this,113,'b')"><input type="radio" name="q113"><div class="option-dot"></div><span class="option-letter">B</span> Expository essay</label>
+    <label class="option-label" onclick="pick(this,113,'c')"><input type="radio" name="q113"><div class="option-dot"></div><span class="option-letter">C</span> Descriptive essay</label>
+    <label class="option-label" onclick="pick(this,113,'d')"><input type="radio" name="q113"><div class="option-dot"></div><span class="option-letter">D</span> Narrative essay</label>
+  </div><div class="feedback-msg" id="fb113"></div>
+</div>
+
+<div class="q-card" id="qc114" data-topic="essay-types">
+  <div class="q-header"><div class="q-num">114</div><div class="q-text">Which type of essay tells a story about a personal experience, usually in chronological order?<span class="q-badge">Essay Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,114,'a')"><input type="radio" name="q114"><div class="option-dot"></div><span class="option-letter">A</span> Argumentative</label>
+    <label class="option-label" onclick="pick(this,114,'b')"><input type="radio" name="q114"><div class="option-dot"></div><span class="option-letter">B</span> Narrative</label>
+    <label class="option-label" onclick="pick(this,114,'c')"><input type="radio" name="q114"><div class="option-dot"></div><span class="option-letter">C</span> Expository</label>
+    <label class="option-label" onclick="pick(this,114,'d')"><input type="radio" name="q114"><div class="option-dot"></div><span class="option-letter">D</span> Analytical</label>
+  </div><div class="feedback-msg" id="fb114"></div>
+</div>
+
+<div class="q-card" id="qc115" data-topic="paragraphing">
+  <div class="q-header"><div class="q-num">115</div><div class="q-text">Which feature of a paragraph ensures that all sentences relate to the central idea?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,115,'a')"><input type="radio" name="q115"><div class="option-dot"></div><span class="option-letter">A</span> Coherence</label>
+    <label class="option-label" onclick="pick(this,115,'b')"><input type="radio" name="q115"><div class="option-dot"></div><span class="option-letter">B</span> Unity</label>
+    <label class="option-label" onclick="pick(this,115,'c')"><input type="radio" name="q115"><div class="option-dot"></div><span class="option-letter">C</span> Emphasis</label>
+    <label class="option-label" onclick="pick(this,115,'d')"><input type="radio" name="q115"><div class="option-dot"></div><span class="option-letter">D</span> Development</label>
+  </div><div class="feedback-msg" id="fb115"></div>
+</div>
+
+<div class="q-card" id="qc116" data-topic="paragraphing">
+  <div class="q-header"><div class="q-num">116</div><div class="q-text">Which feature of a paragraph refers to the logical flow and connection between sentences?<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,116,'a')"><input type="radio" name="q116"><div class="option-dot"></div><span class="option-letter">A</span> Unity</label>
+    <label class="option-label" onclick="pick(this,116,'b')"><input type="radio" name="q116"><div class="option-dot"></div><span class="option-letter">C</span> Coherence</label>
+    <label class="option-label" onclick="pick(this,116,'c')"><input type="radio" name="q116"><div class="option-dot"></div><span class="option-letter">C</span> Brevity</label>
+    <label class="option-label" onclick="pick(this,116,'d')"><input type="radio" name="q116"><div class="option-dot"></div><span class="option-letter">D</span> Emphasis</label>
+  </div><div class="feedback-msg" id="fb116"></div>
+</div>
+
+<div class="q-card" id="qc117" data-topic="paragraphing">
+  <div class="q-header"><div class="q-num">117</div><div class="q-text">A minor supporting sentence in a paragraph functions to…<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,117,'a')"><input type="radio" name="q117"><div class="option-dot"></div><span class="option-letter">A</span> State the main idea of the paragraph.</label>
+    <label class="option-label" onclick="pick(this,117,'b')"><input type="radio" name="q117"><div class="option-dot"></div><span class="option-letter">B</span> Directly support the topic sentence.</label>
+    <label class="option-label" onclick="pick(this,117,'c')"><input type="radio" name="q117"><div class="option-dot"></div><span class="option-letter">C</span> Provide further elaboration or examples for a major supporting sentence.</label>
+    <label class="option-label" onclick="pick(this,117,'d')"><input type="radio" name="q117"><div class="option-dot"></div><span class="option-letter">D</span> Summarise the key points of the entire essay.</label>
+  </div><div class="feedback-msg" id="fb117"></div>
+</div>
+
+<div class="q-card" id="qc118" data-topic="paragraphing">
+  <div class="q-header"><div class="q-num">118</div><div class="q-text">When the topic sentence of a paragraph appears at the END of the paragraph, it is described as…<span class="q-badge">Paragraphing</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,118,'a')"><input type="radio" name="q118"><div class="option-dot"></div><span class="option-letter">A</span> A deductive paragraph</label>
+    <label class="option-label" onclick="pick(this,118,'b')"><input type="radio" name="q118"><div class="option-dot"></div><span class="option-letter">B</span> An inductive paragraph</label>
+    <label class="option-label" onclick="pick(this,118,'c')"><input type="radio" name="q118"><div class="option-dot"></div><span class="option-letter">C</span> An expository paragraph</label>
+    <label class="option-label" onclick="pick(this,118,'d')"><input type="radio" name="q118"><div class="option-dot"></div><span class="option-letter">D</span> A narrative paragraph</label>
+  </div><div class="feedback-msg" id="fb118"></div>
+</div>
+
+<div class="q-card" id="qc119" data-topic="summary">
+  <div class="q-header"><div class="q-num">119</div><div class="q-text">Which of the following is NOT a feature of a good summary?<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,119,'a')"><input type="radio" name="q119"><div class="option-dot"></div><span class="option-letter">A</span> It is written in the summarizer's own words.</label>
+    <label class="option-label" onclick="pick(this,119,'b')"><input type="radio" name="q119"><div class="option-dot"></div><span class="option-letter">B</span> It retains the opinions and feelings of the original writer.</label>
+    <label class="option-label" onclick="pick(this,119,'c')"><input type="radio" name="q119"><div class="option-dot"></div><span class="option-letter">C</span> It is significantly shorter than the original text.</label>
+    <label class="option-label" onclick="pick(this,119,'d')"><input type="radio" name="q119"><div class="option-dot"></div><span class="option-letter">D</span> It captures only the main ideas.</label>
+  </div><div class="feedback-msg" id="fb119"></div>
+</div>
+
+<div class="q-card" id="qc120" data-topic="summary">
+  <div class="q-header"><div class="q-num">120</div><div class="q-text">In writing a summary, a student should AVOID…<span class="q-badge">Summary</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,120,'a')"><input type="radio" name="q120"><div class="option-dot"></div><span class="option-letter">A</span> Paraphrasing the main points.</label>
+    <label class="option-label" onclick="pick(this,120,'b')"><input type="radio" name="q120"><div class="option-dot"></div><span class="option-letter">B</span> Lifting sentences verbatim from the original text.</label>
+    <label class="option-label" onclick="pick(this,120,'c')"><input type="radio" name="q120"><div class="option-dot"></div><span class="option-letter">C</span> Using signal words to identify key points.</label>
+    <label class="option-label" onclick="pick(this,120,'d')"><input type="radio" name="q120"><div class="option-dot"></div><span class="option-letter">D</span> Writing in a neutral and objective tone.</label>
+  </div><div class="feedback-msg" id="fb120"></div>
+</div>
+
+<div class="section-header"><span class="section-tag">SECTION O</span><span class="section-title">Mixed Review: Spelling, Concord &amp; Prepositions</span></div>
+
+<div class="q-card" id="qc121" data-topic="spelling">
+  <div class="q-header"><div class="q-num">121</div><div class="q-text">Which of the following words is correctly spelt?<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,121,'a')"><input type="radio" name="q121"><div class="option-dot"></div><span class="option-letter">A</span> Occassion</label>
+    <label class="option-label" onclick="pick(this,121,'b')"><input type="radio" name="q121"><div class="option-dot"></div><span class="option-letter">B</span> Occasion</label>
+    <label class="option-label" onclick="pick(this,121,'c')"><input type="radio" name="q121"><div class="option-dot"></div><span class="option-letter">C</span> Ocassion</label>
+    <label class="option-label" onclick="pick(this,121,'d')"><input type="radio" name="q121"><div class="option-dot"></div><span class="option-letter">D</span> Ocasion</label>
+  </div><div class="feedback-msg" id="fb121"></div>
+</div>
+
+<div class="q-card" id="qc122" data-topic="spelling">
+  <div class="q-header"><div class="q-num">122</div><div class="q-text">Which of the following words is correctly spelt?<span class="q-badge">Spelling</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,122,'a')"><input type="radio" name="q122"><div class="option-dot"></div><span class="option-letter">A</span> Accomodate</label>
+    <label class="option-label" onclick="pick(this,122,'b')"><input type="radio" name="q122"><div class="option-dot"></div><span class="option-letter">B</span> Acommodate</label>
+    <label class="option-label" onclick="pick(this,122,'c')"><input type="radio" name="q122"><div class="option-dot"></div><span class="option-letter">C</span> Accommodate</label>
+    <label class="option-label" onclick="pick(this,122,'d')"><input type="radio" name="q122"><div class="option-dot"></div><span class="option-letter">D</span> Acomodate</label>
+  </div><div class="feedback-msg" id="fb122"></div>
+</div>
+
+<div class="q-card" id="qc123" data-topic="concord">
+  <div class="q-header"><div class="q-num">123</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,123,'a')"><input type="radio" name="q123"><div class="option-dot"></div><span class="option-letter">A</span> Each of the students have submitted their assignment.</label>
+    <label class="option-label" onclick="pick(this,123,'b')"><input type="radio" name="q123"><div class="option-dot"></div><span class="option-letter">B</span> Each of the students has submitted their assignment.</label>
+    <label class="option-label" onclick="pick(this,123,'c')"><input type="radio" name="q123"><div class="option-dot"></div><span class="option-letter">C</span> Each of the student has submitted their assignment.</label>
+    <label class="option-label" onclick="pick(this,123,'d')"><input type="radio" name="q123"><div class="option-dot"></div><span class="option-letter">D</span> Each of the students have submitted his assignment.</label>
+  </div><div class="feedback-msg" id="fb123"></div>
+</div>
+
+<div class="q-card" id="qc124" data-topic="concord">
+  <div class="q-header"><div class="q-num">124</div><div class="q-text">From alternatives A–D, select the one which contains no CONCORD ERROR.<span class="q-badge">Concord</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,124,'a')"><input type="radio" name="q124"><div class="option-dot"></div><span class="option-letter">A</span> The jury have reached their verdict.</label>
+    <label class="option-label" onclick="pick(this,124,'b')"><input type="radio" name="q124"><div class="option-dot"></div><span class="option-letter">B</span> The jury has reached its verdict.</label>
+    <label class="option-label" onclick="pick(this,124,'c')"><input type="radio" name="q124"><div class="option-dot"></div><span class="option-letter">C</span> The jury have reached its verdict.</label>
+    <label class="option-label" onclick="pick(this,124,'d')"><input type="radio" name="q124"><div class="option-dot"></div><span class="option-letter">D</span> The jury has reached their verdict.</label>
+  </div><div class="feedback-msg" id="fb124"></div>
+</div>
+
+<div class="q-card" id="qc125" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">125</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,125,'a')"><input type="radio" name="q125"><div class="option-dot"></div><span class="option-letter">A</span> She is married with a doctor.</label>
+    <label class="option-label" onclick="pick(this,125,'b')"><input type="radio" name="q125"><div class="option-dot"></div><span class="option-letter">B</span> She is married to a doctor.</label>
+    <label class="option-label" onclick="pick(this,125,'c')"><input type="radio" name="q125"><div class="option-dot"></div><span class="option-letter">C</span> She is married at a doctor.</label>
+    <label class="option-label" onclick="pick(this,125,'d')"><input type="radio" name="q125"><div class="option-dot"></div><span class="option-letter">D</span> She is married by a doctor.</label>
+  </div><div class="feedback-msg" id="fb125"></div>
+</div>
+
+<div class="q-card" id="qc126" data-topic="prepositions">
+  <div class="q-header"><div class="q-num">126</div><div class="q-text">From the alternatives A–D, choose the one correctly constructed in terms of preposition usage.<span class="q-badge">Prepositions</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,126,'a')"><input type="radio" name="q126"><div class="option-dot"></div><span class="option-letter">A</span> He is superior than his colleague in every way.</label>
+    <label class="option-label" onclick="pick(this,126,'b')"><input type="radio" name="q126"><div class="option-dot"></div><span class="option-letter">B</span> He is superior over his colleague in every way.</label>
+    <label class="option-label" onclick="pick(this,126,'c')"><input type="radio" name="q126"><div class="option-dot"></div><span class="option-letter">C</span> He is superior to his colleague in every way.</label>
+    <label class="option-label" onclick="pick(this,126,'d')"><input type="radio" name="q126"><div class="option-dot"></div><span class="option-letter">D</span> He is superior from his colleague in every way.</label>
+  </div><div class="feedback-msg" id="fb126"></div>
+</div>
+
+<div class="q-card" id="qc127" data-topic="sentence-types">
+  <div class="q-header"><div class="q-num">127</div><div class="q-text">Identify the type of sentence: <em>"The boy who sat next to me in class is now a doctor, and he works at Korle Bu."</em><span class="q-badge">Sentence Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,127,'a')"><input type="radio" name="q127"><div class="option-dot"></div><span class="option-letter">A</span> Simple</label>
+    <label class="option-label" onclick="pick(this,127,'b')"><input type="radio" name="q127"><div class="option-dot"></div><span class="option-letter">B</span> Compound</label>
+    <label class="option-label" onclick="pick(this,127,'c')"><input type="radio" name="q127"><div class="option-dot"></div><span class="option-letter">C</span> Complex</label>
+    <label class="option-label" onclick="pick(this,127,'d')"><input type="radio" name="q127"><div class="option-dot"></div><span class="option-letter">D</span> Compound-Complex</label>
+  </div><div class="feedback-msg" id="fb127"></div>
+</div>
+
+<div class="q-card" id="qc128" data-topic="parallelism">
+  <div class="q-header"><div class="q-num">128</div><div class="q-text">Which sentence CORRECTLY uses parallel structure with a list of adjectives?<span class="q-badge">Parallelism</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,128,'a')"><input type="radio" name="q128"><div class="option-dot"></div><span class="option-letter">A</span> The essay was long, it was boring, and poorly structured.</label>
+    <label class="option-label" onclick="pick(this,128,'b')"><input type="radio" name="q128"><div class="option-dot"></div><span class="option-letter">B</span> The essay was long, boring, and poorly structured.</label>
+    <label class="option-label" onclick="pick(this,128,'c')"><input type="radio" name="q128"><div class="option-dot"></div><span class="option-letter">C</span> The essay was long, and it was boring with poor structure.</label>
+    <label class="option-label" onclick="pick(this,128,'d')"><input type="radio" name="q128"><div class="option-dot"></div><span class="option-letter">D</span> The essay was long, boring, and it had poor structure.</label>
+  </div><div class="feedback-msg" id="fb128"></div>
+</div>
+
+<div class="q-card" id="qc129" data-topic="parts-of-speech">
+  <div class="q-header"><div class="q-num">129</div><div class="q-text">In the sentence: <em>"The committee will meet <span class="underline">tomorrow</span>,"</em> the underlined word is a…<span class="q-badge">Parts of Speech</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,129,'a')"><input type="radio" name="q129"><div class="option-dot"></div><span class="option-letter">A</span> Adjective</label>
+    <label class="option-label" onclick="pick(this,129,'b')"><input type="radio" name="q129"><div class="option-dot"></div><span class="option-letter">B</span> Noun</label>
+    <label class="option-label" onclick="pick(this,129,'c')"><input type="radio" name="q129"><div class="option-dot"></div><span class="option-letter">C</span> Adverb</label>
+    <label class="option-label" onclick="pick(this,129,'d')"><input type="radio" name="q129"><div class="option-dot"></div><span class="option-letter">D</span> Preposition</label>
+  </div><div class="feedback-msg" id="fb129"></div>
+</div>
+
+<div class="q-card" id="qc130" data-topic="essay-types paragraphing">
+  <div class="q-header"><div class="q-num">130</div><div class="q-text">Which type of essay aims to persuade the reader to adopt a particular viewpoint by presenting evidence and logical arguments?<span class="q-badge">Essay Types</span></div></div>
+  <div class="q-options">
+    <label class="option-label" onclick="pick(this,130,'a')"><input type="radio" name="q130"><div class="option-dot"></div><span class="option-letter">A</span> Descriptive essay</label>
+    <label class="option-label" onclick="pick(this,130,'b')"><input type="radio" name="q130"><div class="option-dot"></div><span class="option-letter">B</span> Narrative essay</label>
+    <label class="option-label" onclick="pick(this,130,'c')"><input type="radio" name="q130"><div class="option-dot"></div><span class="option-letter">C</span> Expository essay</label>
+    <label class="option-label" onclick="pick(this,130,'d')"><input type="radio" name="q130"><div class="option-dot"></div><span class="option-letter">D</span> Argumentative essay</label>
+  </div><div class="feedback-msg" id="fb130"></div>
+</div>
+
+<!-- SUBMIT BUTTON & RESULTS -->
+<div class="submit-wrap" id="submitWrap" style="display:none;">
+  <button class="btn-submit" onclick="submitAll()">📋 Submit All Answers</button>
+</div>
+
+<div class="results-panel" id="resultsPanel">
+  <div class="results-title">🔒 GETLOCKEDIN — Results</div>
+  <div class="results-score" id="finalScore">0/0</div>
+  <div class="results-sub" id="finalPct">0% Correct</div>
+  <div class="results-bar-bg"><div class="results-bar-fill" id="resultsBar" style="width:0%"></div></div>
+  <div style="font-size:0.85rem; color:#475569; margin-top:8px;" id="resultsTip"></div>
+  <button class="btn-retry" onclick="retryQuiz()">🔄 Try Again</button>
+</div>
+
+<div class="no-results" id="noResults" style="display:none;">
+  <h3>No questions match this filter</h3>
+  <p>Try selecting a different topic above.</p>
+</div>
+
+</div><!-- end main -->
+
+<div class="footer">
+  <span>GETLOCKEDIN (GLI)</span> &nbsp;·&nbsp; Powered by <span>Grace-Led Systems</span> &nbsp;·&nbsp; ENGL157 Comm. Skills Q. Bank &nbsp;·&nbsp; 130 Questions
+</div>
+
+<div style="max-width:1100px;margin:10px auto 40px;padding:0 16px;text-align:center;color:#64748b;font-size:.8rem;font-weight:700;">GETLOCKEDIN × DOMINANCE · Powered by Grace-Led Systems</div>
+<script>
+// ===== ANSWER KEY (130 questions) =====
+const answers = {
+  1:'d', 2:'d', 3:'d', 4:'a', 5:'d',
+  6:'a', 7:'d', 8:'b', 9:'c', 10:'c',
+  11:'a', 12:'b', 13:'a', 14:'c', 15:'a',
+  16:'b', 17:'c', 18:'c', 19:'c', 20:'a',
+  21:'a', 22:'a', 23:'a', 24:'a', 25:'b',
+  26:'a', 27:'a', 28:'a', 29:'b', 30:'a',
+  31:'a', 32:'a', 33:'b', 34:'a', 35:'b',
+  36:'c', 37:'c', 38:'a', 39:'b', 40:'a',
+  41:'c', 42:'b', 43:'b', 44:'b', 45:'b',
+  46:'c', 47:'b', 48:'a', 49:'c', 50:'d',
+  51:'d', 52:'a', 53:'d', 54:'a', 55:'a',
+  56:'c', 57:'c', 58:'a', 59:'a', 60:'a',
+  61:'c', 62:'a', 63:'d', 64:'a', 65:'a',
+  66:'c', 67:'b', 68:'a', 69:'c', 70:'c',
+  // NEW Q71–Q130
+  71:'a', 72:'b', 73:'c', 74:'d', 75:'c',
+  76:'d', 77:'b', 78:'c', 79:'b', 80:'c',
+  81:'d', 82:'c', 83:'b', 84:'b', 85:'b',
+  86:'c', 87:'b', 88:'c', 89:'b', 90:'b',
+  91:'c', 92:'c', 93:'b', 94:'b', 95:'d',
+  96:'a', 97:'c', 98:'c', 99:'b', 100:'b',
+  101:'a', 102:'c', 103:'b', 104:'d', 105:'b',
+  106:'b', 107:'c', 108:'a', 109:'c', 110:'c',
+  111:'b', 112:'b', 113:'c', 114:'b', 115:'b',
+  116:'b', 117:'c', 118:'b', 119:'b', 120:'b',
+  121:'b', 122:'c', 123:'b', 124:'b', 125:'b',
+  126:'c', 127:'d', 128:'b', 129:'c', 130:'d'
+};
+
+let totalQ = 130;
+let mode = 'instant';
+let currentFilter = 'all';
+let userAnswers = {};
+let scored = {};
+let visibleQs = [];
+
+function buildVisibleList() {
+  visibleQs = [];
+  for (let i = 1; i <= 130; i++) {
+    const c = document.getElementById('qc' + i);
+    if (c && !c.classList.contains('hidden')) visibleQs.push(i);
+  }
+  totalQ = visibleQs.length;
+  document.getElementById('qCount').textContent = totalQ + ' Question' + (totalQ !== 1 ? 's' : '');
+  document.getElementById('noResults').style.display = totalQ === 0 ? 'block' : 'none';
+  updateProgress();
+  updateScore();
+}
+
+function filterTopic(topic, el) {
+  currentFilter = topic;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+
+  for (let i = 1; i <= 130; i++) {
+    const card = document.getElementById('qc' + i);
+    if (!card) continue;
+    if (topic === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      const topics = (card.getAttribute('data-topic') || '').split(' ');
+      card.classList.toggle('hidden', !topics.includes(topic));
+    }
+  }
+
+  // Also hide/show section headers
+  document.querySelectorAll('.section-header').forEach(sh => {
+    if (topic === 'all') { sh.style.display = ''; return; }
+    let next = sh.nextElementSibling;
+    let hasVisible = false;
+    while (next && !next.classList.contains('section-header')) {
+      if (next.classList.contains('q-card') && !next.classList.contains('hidden')) hasVisible = true;
+      next = next.nextElementSibling;
+    }
+    sh.style.display = hasVisible ? '' : 'none';
+  });
+
+  buildVisibleList();
+  retryQuiz(true); // soft reset
+}
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btnInstant').classList.toggle('active', m === 'instant');
+  document.getElementById('btnSubmit').classList.toggle('active', m === 'submit');
+  document.getElementById('submitWrap').style.display = m === 'submit' ? 'flex' : 'none';
+  retryQuiz();
+}
+
+function pick(label, qNum, choice) {
+  if (scored[qNum]) return;
+  const card = document.getElementById('qc' + qNum);
+  card.querySelectorAll('.option-label').forEach(l => {
+    l.classList.remove('selected');
+    l.classList.add('disabled');
+  });
+  label.classList.add('selected');
+  label.classList.remove('disabled');
+  userAnswers[qNum] = choice;
+  updateProgress();
+  if (mode === 'instant') gradeQuestion(qNum);
+}
+
+function gradeQuestion(qNum) {
+  const correct = answers[qNum];
+  const chosen = userAnswers[qNum];
+  const card = document.getElementById('qc' + qNum);
+  const fb = document.getElementById('fb' + qNum);
+  scored[qNum] = true;
+
+  card.querySelectorAll('.option-label').forEach(l => {
+    l.classList.add('disabled');
+    const letter = l.querySelector('.option-letter').textContent.trim().toLowerCase();
+    if (letter === correct) l.classList.add('correct-ans');
+    else if (letter === chosen && chosen !== correct) l.classList.add('wrong-ans');
+  });
+
+  if (chosen === correct) {
+    card.classList.add('answered-correct');
+    fb.className = 'feedback-msg correct';
+    fb.textContent = '✅ Correct!';
+  } else {
+    card.classList.add('answered-wrong');
+    fb.className = 'feedback-msg wrong';
+    fb.textContent = `❌ Wrong. The correct answer is (${correct.toUpperCase()}).`;
+  }
+  updateScore();
+}
+
+function submitAll() {
+  visibleQs.forEach(i => { if (userAnswers[i] && !scored[i]) gradeQuestion(i); });
+  const correct = visibleQs.filter(q => userAnswers[q] === answers[q]).length;
+  const pct = Math.round((correct / totalQ) * 100);
+  document.getElementById('finalScore').textContent = correct + '/' + totalQ;
+  document.getElementById('finalPct').textContent = pct + '% Correct';
+  document.getElementById('resultsBar').style.width = pct + '%';
+  let tip = pct >= 80 ? '🏆 Excellent! You\'re locked in!' : pct >= 60 ? '👍 Good effort! Review the wrong ones.' : '📚 Keep studying — you\'ve got this!';
+  document.getElementById('resultsTip').textContent = tip;
+  const panel = document.getElementById('resultsPanel');
+  panel.classList.add('show');
+  panel.scrollIntoView({behavior:'smooth'});
+  document.getElementById('submitWrap').style.display = 'none';
+}
+
+function updateScore() {
+  const correct = Object.keys(scored).filter(q => visibleQs.includes(+q) && userAnswers[q] === answers[q]).length;
+  const attempted = Object.keys(scored).filter(q => visibleQs.includes(+q)).length;
+  if (mode === 'instant') document.getElementById('liveScore').textContent = 'Score: ' + correct + ' / ' + attempted;
+}
+
+function updateProgress() {
+  const answered = visibleQs.filter(q => userAnswers[q]).length;
+  const pct = totalQ > 0 ? (answered / totalQ) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  if (mode === 'submit') document.getElementById('liveScore').textContent = 'Answered: ' + answered + ' / ' + totalQ;
+}
+
+function retryQuiz(soft = false) {
+  if (!soft) { userAnswers = {}; scored = {}; }
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('liveScore').textContent = mode === 'submit' ? 'Answered: 0 / ' + totalQ : 'Score: 0 / 0';
+  document.getElementById('resultsPanel').classList.remove('show');
+  if (mode === 'submit') document.getElementById('submitWrap').style.display = 'flex';
+
+  for (let i = 1; i <= 130; i++) {
+    const card = document.getElementById('qc' + i);
+    if (!card) continue;
+    card.classList.remove('answered-correct', 'answered-wrong');
+    card.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected','correct-ans','wrong-ans','disabled'));
+    const fb = document.getElementById('fb' + i);
+    if (fb) { fb.className = 'feedback-msg'; fb.textContent = ''; }
+  }
+  if (!soft) window.scrollTo({top:0, behavior:'smooth'});
+  buildVisibleList();
+}
+
+// Init
+buildVisibleList();
+</script>
+</body>
+</html>
